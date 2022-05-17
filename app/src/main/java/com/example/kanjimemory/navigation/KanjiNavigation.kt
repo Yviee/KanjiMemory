@@ -22,7 +22,7 @@ fun KanjiNavigation() {
         }
 
         composable(KanjiScreens.ExerciseScreen.name) {
-            ExerciseScreen(navController = navController)
+            ExerciseScreen(kanjiViewModel = kanjiViewModel, navController = navController)
         }
 
         composable(KanjiScreens.KanjiListScreen.name) {
