@@ -1,5 +1,6 @@
 package com.example.kanjimemory.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -10,9 +11,11 @@ import com.example.kanjimemory.screens.HomeScreen
 import com.example.kanjimemory.screens.KanjiListScreen
 import com.example.kanjimemory.viewmodel.KanjiViewModel
 
+@ExperimentalMaterialApi
 @Composable
 fun KanjiNavigation() {
 
+    // do as Leon says: vmfactory -> context, db, repository! -> 1 h in
     val navController = rememberNavController()
     val kanjiViewModel: KanjiViewModel = viewModel()
 

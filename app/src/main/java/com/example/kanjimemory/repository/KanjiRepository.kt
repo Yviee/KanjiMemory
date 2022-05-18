@@ -11,4 +11,6 @@ import javax.inject.Inject
 class KanjiRepository @Inject constructor(private val kanjiDatabaseDao: KanjiDatabaseDao){
     fun getAllKanjis(): Flow<List<Kanji>> = kanjiDatabaseDao.getAllData().flowOn(Dispatchers.IO).conflate()
 
+    fun getRandomKanjis(): Flow<List<Kanji>> = kanjiDatabaseDao.getRandomKanjis().flowOn(Dispatchers.IO).conflate()
+
 }
