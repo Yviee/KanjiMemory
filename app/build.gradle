@@ -67,6 +67,9 @@ dependencies {
     // ViewModel Component
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-beta01")
 
+    // LiveData Component
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
     // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"

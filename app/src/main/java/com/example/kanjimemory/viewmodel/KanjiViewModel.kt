@@ -23,9 +23,6 @@ class KanjiViewModel @Inject constructor(private val repository: KanjiRepository
     val kanjiList = _kanjiList.asStateFlow()
     // this is public API; holds stateful flow
 
-    private val _randomKanjiList = MutableStateFlow<List<Kanji>> (emptyList())
-    val randomKanjiList = _randomKanjiList.asStateFlow()
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllKanjis().distinctUntilChanged().collect { listOfKanjis ->
@@ -36,29 +33,5 @@ class KanjiViewModel @Inject constructor(private val repository: KanjiRepository
                 }
             }
         }
-
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getRandomKanjis().distinctUntilChanged().collect { listOfRandomKanjis ->
-                if (listOfRandomKanjis.isNullOrEmpty()) {
-                    Log.d("databasetryout", "No random kanjis here!")
-                } else {
-                    _randomKanjiList.value = listOfRandomKanjis
-                }
-            }
-        }
     }
-
-   /*
-
-    fun getRandomKanjis() = viewModelScope.launch(Dispatchers.IO) {
-        repository.getRandomKanjis().distinctUntilChanged().collect { listOfRandomKanjis ->
-            if (listOfRandomKanjis.isNullOrEmpty()) {
-                Log.d("databasetryout", "No random kanjis here!")
-            } else {
-                _randomKanjiList.value = listOfRandomKanjis
-            }
-        }
-    }*/
-    // Dunno if the above code should not be inside init..? If not, how and where else should it be put?
-
 }
