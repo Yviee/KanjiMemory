@@ -19,8 +19,6 @@ import com.example.kanjimemory.viewmodel.KanjiViewModel
 fun KanjiNavigation() {
 
     val navController = rememberNavController()
-    val kanjiViewModel: KanjiViewModel = viewModel()
-    val exerciseViewModel: ExerciseViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = KanjiScreens.HomeScreen.name) {
         composable(KanjiScreens.HomeScreen.name) {
@@ -28,11 +26,11 @@ fun KanjiNavigation() {
         }
 
         composable(KanjiScreens.ExerciseScreen.name) {
-            ExerciseScreen(exerciseViewModel = exerciseViewModel, navController = navController)
+            ExerciseScreen(navController = navController)
         }
 
         composable(KanjiScreens.KanjiListScreen.name) {
-            KanjiListScreen(kanjiViewModel = kanjiViewModel, navController = navController)
+            KanjiListScreen(navController = navController)
         }
     }
 

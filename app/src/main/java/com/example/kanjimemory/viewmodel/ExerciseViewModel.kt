@@ -57,6 +57,9 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         MutableLiveData<Boolean>(false)
     }
 
+    private var _solvedKanjis = MutableLiveData<List<Int>>(emptyList())
+    val solvedKanjis: LiveData<List<Int>> = _solvedKanjis
+
     private val _solvedKanjiList = mutableListOf<Int>()
     val solvedKanjiList: List<Int>
             get() = _solvedKanjiList
@@ -133,6 +136,7 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
             getRandomKanjis()
             matchedCardsNumber = 0
             _solvedKanjiList.clear()
+            _solvedKanjis.value = listOf()
         }
     }
 
@@ -146,36 +150,20 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
             // if guessed correctly:
             if (_selectedKanjiList.contains(kanjiId)) {
                 matchedCardsNumber++
-                println(matchedCardsNumber)
                 _solvedKanjiList.add(kanjiId)
-                println("solved kanjis: $solvedKanjiList")
-                println("current kanjiID: $kanjiId")
-                println("selected kanji: $selectedKanjiList")
-                println("______________________")
+                val copyList = _solvedKanjiList.toList() // need to make a deep copy of list if list is only referenced it will not trigger recomposition
+                _solvedKanjis.value = copyList
                 cardClicked.value = false
                 kanjiEnabled.value = false
                 translationEnabled.value = false
-
-                // if guessed incorrectly:
             } else {
-                println("U guessed wrong.")
-                println("solved kanjis: $solvedKanjiList")
-                println("current kanjiID: $kanjiId")
-                println("selected kanji: $selectedKanjiList")
-                println("______________________")
                 cardClicked.value = false
             }
             _selectedKanjiList.clear()
             cardClicked.value = false
 
         } else {
-            println("solved kanjis: $solvedKanjiList")
-            println("current kanjiID: $kanjiId")
-            println("selected kanji: $selectedKanjiList")
             _selectedKanjiList.add(kanjiId)
-            println("selected kanji after adding: $selectedKanjiList")
-            println(kanjiId)
-            println("______________________")
         }
     }
 

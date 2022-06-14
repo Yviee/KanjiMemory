@@ -20,9 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
@@ -33,7 +35,8 @@ import java.util.Collections.shuffle
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ExerciseScreen(exerciseViewModel: ExerciseViewModel, navController: NavController = rememberNavController()) {
+fun ExerciseScreen(navController: NavController = rememberNavController()) {
+        val exerciseViewModel: ExerciseViewModel = hiltViewModel()
 
         Scaffold(
             topBar = {
@@ -52,7 +55,12 @@ fun ExerciseScreen(exerciseViewModel: ExerciseViewModel, navController: NavContr
             Surface(modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colors.primary) {
 
-                MemoryGrid(exerciseViewModel = exerciseViewModel)
+                // needs to be instantiated here because the shuffled function would shuffle all
+                // kanjis on each recomposition (each change inside cards)
+                val database = exerciseViewModel.randomKanjiList.collectAsState().value
+                val kanjis = database.shuffled()
+
+                MemoryGrid(kanjisShuffled = kanjis, translations = database, exerciseViewModel = exerciseViewModel)
         }
     }
 }
@@ -60,46 +68,34 @@ fun ExerciseScreen(exerciseViewModel: ExerciseViewModel, navController: NavContr
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun MemoryGrid (exerciseViewModel: ExerciseViewModel) {
+fun MemoryGrid (kanjisShuffled: List<Kanji>, translations: List<Kanji>, exerciseViewModel: ExerciseViewModel) {
 
-    // unselect button if no match
-    // disable click if match
+    //val database = exerciseViewModel.randomKanjiList.collectAsState().value
+    //val kanjis = database.shuffled()    // shuffles kanjis on each recomposition -> leads to shifting cards
 
-    val database = exerciseViewModel.randomKanjiList.collectAsState().value
-
-    val kanjis = database.shuffled()
-
-    //var totalGuesses by remember { mutableStateOf(0)}
-
-    //exerciseViewModel.cardClicked.observeAsState(true)
-//    exerciseViewModel.kanjiClicked.observeAsState(false)
-//    exerciseViewModel.translationClicked.observeAsState(false)
+    val solvedKanjis = exerciseViewModel.solvedKanjis.observeAsState()  // observe the solved kanjis state
 
     Box(contentAlignment = Alignment.Center) {
-
         Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Column {
-                kanjis.forEach { kanji ->
+                kanjisShuffled.forEach { kanji ->
                     // entweder hier oder statt exerciseViewModel als Parameter übergeben, ob kanji selected ist oder nicht -> aus ViewModel
                     // see movie app: isFavourite
                     // exerciseViewModel.isSelected()
                     // (exerciseViewModel.disableCard(kanjiId = kanji.id)
                     // val disableClick = exerciseViewModel.cardClicked.observeAsState(true)
-                    KanjiCard(kanji = kanji, exerciseViewModel = exerciseViewModel, onItemClick = {
-                        /*exerciseViewModel.kanjiClicked.value = true
-                        exerciseViewModel.kanjiIdClicked.value = kanji.id*/
-                        //exerciseViewModel.checkMatch()
-                        //exerciseViewModel.cardClicked.value = exerciseViewModel.disableCard(kanjiId = kanji.id)
-                        //totalGuesses++
+                    KanjiCard(
+                        kanji = kanji,
+                        solvedKanjis = solvedKanjis.value,  // pass solved kanjis state
+                        onItemClick = {
                         exerciseViewModel.cardClicked.value = !(exerciseViewModel.cardClicked.value)!!
                         exerciseViewModel.addToSelected(kanjiId = kanji.id)
-                        //exerciseViewModel.kanjiClicked.value = !exerciseViewModel.kanjiClicked.value!!
                         exerciseViewModel.reload()
                     })
                 }
             }
             Column {
-                database.forEach { translation ->
+                translations.forEach { translation ->
                     TranslationCard(translation = translation, exerciseViewModel = exerciseViewModel, onItemClick = {
                         /*exerciseViewModel.translationClicked.value = true
                         exerciseViewModel.translationIdClicked.value = translation.id*/
@@ -118,30 +114,20 @@ fun MemoryGrid (exerciseViewModel: ExerciseViewModel) {
 
 @ExperimentalMaterialApi
 @Composable
-fun KanjiCard(kanji: Kanji, exerciseViewModel: ExerciseViewModel, onItemClick: () -> Unit = {}) {
-
-    val selection = exerciseViewModel.cardClicked.observeAsState(false)
-    var kanjiSelected by remember { mutableStateOf(selection.value) }
-
-    //var selectCount by remember { mutableStateOf(exerciseViewModel.selectCount.value)}
-
-    val disableClick = exerciseViewModel.disableCard(kanjiId = kanji.id)
-
-    //var disableClick by remember { mutableStateOf(exerciseViewModel.disableCard(kanjiId = kanji.id)) }
-
-    //val disableClick by exerciseViewModel.disableCard(kanjiId = kanji.id).observeAsState()
+fun KanjiCard(kanji: Kanji,
+              solvedKanjis: List<Int>?,
+              onItemClick: () -> Unit = {}) {
 
     IconToggleButton(
-        checked = kanjiSelected,
+        checked = false,
         onCheckedChange = {
-            kanjiSelected = it
             onItemClick()
         },
         modifier = Modifier
             .width(200.dp)
             .height(130.dp)
             .padding(20.dp),
-        enabled = disableClick) {
+        enabled = !solvedKanjis!!.contains(kanji.id)) { // check if THIS kanjis is inside solved kanjis -> if so disable
         //val tint by animateColorAsState(if (kanjiSelected) Color(0xFF8E60BE) else Purple200)
 
         Card(
@@ -154,7 +140,7 @@ fun KanjiCard(kanji: Kanji, exerciseViewModel: ExerciseViewModel, onItemClick: (
             Column(modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(kanji.kanji, style = MaterialTheme.typography.h4)
+                Text(kanji.kanji + kanji.translation, style = MaterialTheme.typography.h4)
             }
         }
     }
@@ -167,10 +153,10 @@ fun KanjiCard(kanji: Kanji, exerciseViewModel: ExerciseViewModel, onItemClick: (
 @Composable
 fun TranslationCard(translation: Kanji,  exerciseViewModel: ExerciseViewModel, onItemClick: () -> Unit = {}) {
 
-    val selection = exerciseViewModel.cardClicked.observeAsState(false)
-    var translationSelected by remember { mutableStateOf(selection.value) }
+    //val selection = exerciseViewModel.cardClicked.observeAsState(false)
+    var translationSelected by remember { mutableStateOf(false) }
 
-    exerciseViewModel.cardClicked.observeAsState(false)
+    // exerciseViewModel.cardClicked.observeAsState(false)
     val disableClick = exerciseViewModel.disableCard(kanjiId = translation.id)
 
     //var disableClick by remember { mutableStateOf(exerciseViewModel.disableCard(kanjiId = translation.id)) }
