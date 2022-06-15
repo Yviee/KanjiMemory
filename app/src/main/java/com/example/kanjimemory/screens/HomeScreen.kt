@@ -34,7 +34,10 @@ fun HomeMenu(navController: NavController) {
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        Button(onClick = {navController.navigate(route = KanjiScreens.ExerciseScreen.name)},
+        Button(
+            onClick = {
+                navController.navigate(route = KanjiScreens.ExerciseScreen.name)
+                         },
             colors = ButtonDefaults.buttonColors(Purple200),
             modifier = Modifier.height(80.dp)) {
             Text(text = "Start Kanji Exercise", fontSize = 20.sp)

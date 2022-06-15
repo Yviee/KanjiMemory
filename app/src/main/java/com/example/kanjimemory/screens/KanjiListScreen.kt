@@ -16,6 +16,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
@@ -24,8 +26,8 @@ import com.example.kanjimemory.viewmodel.KanjiViewModel
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun KanjiListScreen (kanjiViewModel: KanjiViewModel, navController: NavController = rememberNavController()) {
-
+fun KanjiListScreen (navController: NavController = rememberNavController()) {
+    val kanjiViewModel: KanjiViewModel = hiltViewModel()
     val database = kanjiViewModel.kanjiList.collectAsState().value
     Scaffold(
         topBar = {
