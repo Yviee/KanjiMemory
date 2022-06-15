@@ -70,6 +70,7 @@ fun MemoryGrid (exerciseViewModel: ExerciseViewModel) {
     val kanjis = database.shuffled()
 
     //var totalGuesses by remember { mutableStateOf(0)}
+    // to test-trigger recomposition
 
     //exerciseViewModel.cardClicked.observeAsState(true)
 //    exerciseViewModel.kanjiClicked.observeAsState(false)

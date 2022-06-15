@@ -65,6 +65,11 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
     val selectedKanjiList: List<Int>
     get() = _selectedKanjiList
 
+    private var _selectedTranslationList = mutableListOf<Int>()
+    val selectedTranslationList: List<Int>
+        get() = _selectedTranslationList
+
+
    /* private val _selectedKanjiList: MutableLiveData<MutableList<Int>> by lazy {
         MutableLiveData<MutableList<Int>>()
     }*/
@@ -179,8 +184,9 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         }
     }
 
-    fun isSelected(kanjiId: Int): Boolean {
-        return !cardClicked.value!!
+    fun translationSelect(translationId: Int) {
+        // add to selected translation list;
+        // make another function to compare first items in list. if match -> id into solvedlist.
     }
 
     fun disableCard(kanjiId: Int): Boolean {
@@ -195,6 +201,7 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         }
         return  true
     }
+
 }
 
 
