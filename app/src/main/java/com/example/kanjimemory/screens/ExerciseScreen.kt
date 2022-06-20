@@ -1,13 +1,7 @@
 package com.example.kanjimemory.screens
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,20 +11,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.viewmodel.ExerciseViewModel
-import java.util.Collections.shuffle
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -79,11 +67,6 @@ fun MemoryGrid (kanjisShuffled: List<Kanji>, translations: List<Kanji>, exercise
         Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Column {
                 kanjisShuffled.forEach { kanji ->
-                    // entweder hier oder statt exerciseViewModel als Parameter übergeben, ob kanji selected ist oder nicht -> aus ViewModel
-                    // see movie app: isFavourite
-                    // exerciseViewModel.isSelected()
-                    // (exerciseViewModel.disableCard(kanjiId = kanji.id)
-                    // val disableClick = exerciseViewModel.cardClicked.observeAsState(true)
                     KanjiCard(
                         kanji = kanji,
                         solvedKanjis = solvedKanjis.value,  // pass solved kanjis state
@@ -97,13 +80,8 @@ fun MemoryGrid (kanjisShuffled: List<Kanji>, translations: List<Kanji>, exercise
             Column {
                 translations.forEach { translation ->
                     TranslationCard(translation = translation, exerciseViewModel = exerciseViewModel, onItemClick = {
-                        /*exerciseViewModel.translationClicked.value = true
-                        exerciseViewModel.translationIdClicked.value = translation.id*/
-                        //exerciseViewModel.checkMatch()
-                        //totalGuesses++
                         exerciseViewModel.cardClicked.value = !(exerciseViewModel.cardClicked.value)!!
                         exerciseViewModel.addToSelected(kanjiId = translation.id)
-                        //exerciseViewModel.translationClicked.value = !exerciseViewModel.translationClicked.value!!
                         exerciseViewModel.reload()
                     })
                 }
@@ -127,7 +105,7 @@ fun KanjiCard(kanji: Kanji,
             .width(200.dp)
             .height(130.dp)
             .padding(20.dp),
-        enabled = !solvedKanjis!!.contains(kanji.id)) { // check if THIS kanjis is inside solved kanjis -> if so disable
+        enabled = !solvedKanjis!!.contains(kanji.id)) { // check if THIS kanji is inside solved kanjis -> if so disable
         //val tint by animateColorAsState(if (kanjiSelected) Color(0xFF8E60BE) else Purple200)
 
         Card(
@@ -153,15 +131,9 @@ fun KanjiCard(kanji: Kanji,
 @Composable
 fun TranslationCard(translation: Kanji,  exerciseViewModel: ExerciseViewModel, onItemClick: () -> Unit = {}) {
 
-    //val selection = exerciseViewModel.cardClicked.observeAsState(false)
     var translationSelected by remember { mutableStateOf(false) }
 
-    // exerciseViewModel.cardClicked.observeAsState(false)
     val disableClick = exerciseViewModel.disableCard(kanjiId = translation.id)
-
-    //var disableClick by remember { mutableStateOf(exerciseViewModel.disableCard(kanjiId = translation.id)) }
-    //val selectCount by remember { mutableStateOf(exerciseViewModel.selectCount.value)}
-    //val disableClick = exerciseViewModel.kanjiEnabled.observeAsState(true)
 
     IconToggleButton(
         checked = translationSelected,

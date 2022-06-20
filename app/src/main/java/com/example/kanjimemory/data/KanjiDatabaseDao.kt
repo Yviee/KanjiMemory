@@ -1,7 +1,6 @@
 package com.example.kanjimemory.data
 
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Query
 import com.example.kanjimemory.model.Kanji
 import kotlinx.coroutines.flow.Flow

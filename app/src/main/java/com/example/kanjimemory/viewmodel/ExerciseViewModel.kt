@@ -1,8 +1,6 @@
 package com.example.kanjimemory.viewmodel
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,22 +35,6 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         }
     }
 
-    val kanjiIdClicked: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
-    }
-
-    val translationIdClicked: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
-    }
-
-    val kanjiClicked: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>(false)
-    }
-
-    val translationClicked: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>(false)
-    }
-
     val cardClicked: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
@@ -68,24 +50,7 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
     val selectedKanjiList: List<Int>
     get() = _selectedKanjiList
 
-    private var _selectedTranslationList = mutableListOf<Int>()
-    val selectedTranslationList: List<Int>
-        get() = _selectedTranslationList
-
-
-   /* private val _selectedKanjiList: MutableLiveData<MutableList<Int>> by lazy {
-        MutableLiveData<MutableList<Int>>()
-    }*/
-
-
     private var matchedCardsNumber = 0
-
-    private val _matchOfCards = MutableLiveData(true)
-    val matchOfCards: LiveData<Boolean> = _matchOfCards
-
-    val selectCount: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>(0)
-    }
 
     val kanjiEnabled: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(true)
@@ -147,8 +112,8 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
 
     fun addToSelected(kanjiId: Int) {
         // check if not empty
-        // if ITEM has same id: matchedcardsnumber++, add id to isMatched, clear isSelected
-        // if id in isMatched list, disable
+        // if ITEM has same id: matchedcardsnumber++, add id to solved Kanjis, clear selectedKanjis
+        // if id in solved list, disable
 
 
         if (_selectedKanjiList.isNotEmpty()) {
@@ -156,7 +121,8 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
             if (_selectedKanjiList.contains(kanjiId)) {
                 matchedCardsNumber++
                 _solvedKanjiList.add(kanjiId)
-                val copyList = _solvedKanjiList.toList() // need to make a deep copy of list if list is only referenced it will not trigger recomposition
+                val copyList = _solvedKanjiList.toList()
+                // need to make a deep copy of list: if only list is referenced, it will not trigger recomposition
                 _solvedKanjis.value = copyList
                 cardClicked.value = false
                 kanjiEnabled.value = false
@@ -172,13 +138,8 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         }
     }
 
-    fun translationSelect(translationId: Int) {
-        // add to selected translation list;
-        // make another function to compare first items in list. if match -> id into solvedlist.
-    }
-
     fun disableCard(kanjiId: Int): Boolean {
-        //  check if id of kanji is in solved list
+        // check if id of kanji is in solved list
         // if in solved list -> return false
         // otherwise true
 

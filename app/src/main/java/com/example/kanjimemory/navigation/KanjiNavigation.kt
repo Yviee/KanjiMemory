@@ -3,15 +3,12 @@ package com.example.kanjimemory.navigation
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.screens.ExerciseScreen
 import com.example.kanjimemory.screens.HomeScreen
 import com.example.kanjimemory.screens.KanjiListScreen
-import com.example.kanjimemory.viewmodel.ExerciseViewModel
-import com.example.kanjimemory.viewmodel.KanjiViewModel
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
