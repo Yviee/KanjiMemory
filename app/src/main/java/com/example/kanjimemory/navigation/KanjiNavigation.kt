@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.screens.ExerciseScreen
 import com.example.kanjimemory.screens.HomeScreen
 import com.example.kanjimemory.screens.KanjiListScreen
+import com.example.kanjimemory.screens.RepetitionScreen
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -28,6 +29,10 @@ fun KanjiNavigation() {
 
         composable(KanjiScreens.KanjiListScreen.name) {
             KanjiListScreen(navController = navController)
+        }
+
+        composable(KanjiScreens.RepetitionScreen.name) {
+            RepetitionScreen(navController = navController)
         }
     }
 
