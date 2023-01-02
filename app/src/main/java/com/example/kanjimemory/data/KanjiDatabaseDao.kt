@@ -21,22 +21,12 @@ interface KanjiDatabaseDao {
     @Query("SELECT * FROM kanji WHERE id IN (SELECT id FROM kanji ORDER BY RANDOM() LIMIT 5)")
     fun getRandomKanjis(): Flow<List<Kanji>>
 
+    // get single random Kanji object
+    @Query("SELECT * FROM kanji WHERE id IN (SELECT id FROM kanji ORDER BY RANDOM() LIMIT 1)")
+    fun getOneRandomKanji(): Flow<Kanji>
+
     // supposed to be more performant than just: "select * from kanji order by random() limit 1"
     // see: https://stackoverflow.com/questions/4114940/select-random-rows-in-sqlite
     // "distinct" not needed here, because SQL selects ids from whole database, which only contains unique entries.
-/*
 
-    @Query("SELECT kanji from kanji_db")
-    fun getKanjis(): Flow<List<Kanji>>
-
-    @Query("SELECT translation from kanji_db")
-    fun getTranslation(): Flow<List<Kanji>>
-
-    /*
-    @Insert
-    suspend fun insertKanjis(kanji: List<Kanji>)
-    // add Flow as in getKanjis() Function?
-
-     */
-     */
 }
