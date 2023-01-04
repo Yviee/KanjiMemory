@@ -16,6 +16,12 @@ data class Kanji (
     @ColumnInfo(name= "Translations")
     val translation: String,
 
+    @ColumnInfo(name = "TranslationDate")
+    val dateTranslated: Long,
+
+    @ColumnInfo(name = "Counter")
+    var counter: Int = 0
+
     /*@Ignore
     val enabled: Boolean = true*/
 

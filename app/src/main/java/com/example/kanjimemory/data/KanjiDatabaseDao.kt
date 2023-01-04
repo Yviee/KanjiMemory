@@ -2,6 +2,7 @@ package com.example.kanjimemory.data
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Update
 import com.example.kanjimemory.model.Kanji
 import kotlinx.coroutines.flow.Flow
 
@@ -24,6 +25,9 @@ interface KanjiDatabaseDao {
     // get single random Kanji object
     @Query("SELECT * FROM kanji WHERE id IN (SELECT id FROM kanji ORDER BY RANDOM() LIMIT 1)")
     fun getOneRandomKanji(): Flow<Kanji>
+
+    @Update
+    fun update(kanji: Kanji)
 
     // supposed to be more performant than just: "select * from kanji order by random() limit 1"
     // see: https://stackoverflow.com/questions/4114940/select-random-rows-in-sqlite
