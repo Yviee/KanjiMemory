@@ -17,7 +17,7 @@ data class Kanji (
     val translation: String,
 
     @ColumnInfo(name = "TranslationDate")
-    val dateTranslated: Long,
+    var dateTranslated: Long,
 
     @ColumnInfo(name = "Counter")
     var counter: Int = 0

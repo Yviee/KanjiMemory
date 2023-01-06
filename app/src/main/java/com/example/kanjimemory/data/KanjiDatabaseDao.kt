@@ -27,7 +27,7 @@ interface KanjiDatabaseDao {
     fun getOneRandomKanji(): Flow<Kanji>
 
     @Update
-    fun update(kanji: Kanji)
+    suspend fun update(kanji: Kanji)
 
     // supposed to be more performant than just: "select * from kanji order by random() limit 1"
     // see: https://stackoverflow.com/questions/4114940/select-random-rows-in-sqlite

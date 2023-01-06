@@ -16,6 +16,6 @@ class KanjiRepository @Inject constructor(private val kanjiDatabaseDao: KanjiDat
     // get single random Kanji object
     fun getOneRandomKanji(): Flow<Kanji> = kanjiDatabaseDao.getOneRandomKanji()
 
-    fun update(kanji: Kanji) = kanjiDatabaseDao.update(kanji)
+    suspend fun update(kanji: Kanji) = kanjiDatabaseDao.update(kanji)
 
 }
