@@ -28,7 +28,7 @@ class RepetitionViewModel @Inject constructor(private val repository: KanjiRepos
         getOneRandomKanji()
     }
 
-    var flowValue: Kanji? = null
+    private var flowValue: Kanji? = null
 
     fun getOneRandomKanji(): Job = viewModelScope.launch(Dispatchers.IO) {
 
