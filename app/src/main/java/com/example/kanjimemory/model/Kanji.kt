@@ -11,7 +11,7 @@ data class Kanji (
     val id: Int,
 
     @ColumnInfo(name= "Kanjis")
-    val kanji: String,
+    var kanji: String,
 
     @ColumnInfo(name= "Translations")
     val translation: String,
@@ -22,8 +22,4 @@ data class Kanji (
     @ColumnInfo(name = "Counter")
     var counter: Int = 0
 
-    /*@Ignore
-    val enabled: Boolean = true*/
-
-    // not sure if ColumnInfo still needed since db already has named columns...
     )

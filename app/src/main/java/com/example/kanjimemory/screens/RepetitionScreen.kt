@@ -41,9 +41,10 @@ fun RepetitionScreen(navController: NavController = rememberNavController()) {
         Surface(modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.primary) {
 
+            val accessKanji = repetitionViewModel.randomKanji.collectAsState().value
+
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                val accessKanji = repetitionViewModel.randomKanji.collectAsState().value
                 val valueContext = LocalContext.current
 
                 Card(modifier = Modifier
@@ -70,15 +71,18 @@ fun RepetitionScreen(navController: NavController = rememberNavController()) {
 
                 Button(onClick = {
 
-                    repetitionViewModel.translationToCheck.value = textInput.text
+                    repetitionViewModel.translationToCheck = textInput.text
                     repetitionViewModel.checkTranslation()
+
                     Toast.makeText(
                         valueContext,
                         repetitionViewModel.displayToast.value,
                         Toast.LENGTH_SHORT)
                         .show()
-                    repetitionViewModel.getOneRandomKanji()
+
                     textInput = TextFieldValue("")
+
+                    repetitionViewModel.getOneRandomKanji()
 
                 }, colors = ButtonDefaults.buttonColors(Purple200)) {
                     Text(text = "Check Translation")

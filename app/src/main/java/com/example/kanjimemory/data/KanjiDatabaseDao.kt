@@ -31,6 +31,5 @@ interface KanjiDatabaseDao {
 
     // supposed to be more performant than just: "select * from kanji order by random() limit 1"
     // see: https://stackoverflow.com/questions/4114940/select-random-rows-in-sqlite
-    // "distinct" not needed here, because SQL selects ids from whole database, which only contains unique entries.
 
 }
