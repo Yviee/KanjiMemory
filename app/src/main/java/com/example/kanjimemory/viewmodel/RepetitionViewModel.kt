@@ -37,7 +37,7 @@ class RepetitionViewModel @Inject constructor(private val repository: KanjiRepos
 
             if (flowValue!!.counter > 0) {
                 val timeToNextReview = (Date().time - flowValue!!.dateTranslated).absoluteValue
-                if (timeToNextReview >= timeInterval[_randomKanji.value!!.counter] * 60000) {
+                if (timeToNextReview >= timeInterval[_randomKanji.value!!.counter - 1] * 60000) {
                     _randomKanji.value = flowValue
                 } else {
                     getOneRandomKanji()
