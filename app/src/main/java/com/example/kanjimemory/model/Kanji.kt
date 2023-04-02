@@ -11,13 +11,13 @@ data class Kanji (
     val id: Int,
 
     @ColumnInfo(name= "Kanjis")
-    var kanji: String,
+    var kanji: String = "empty kanji",
 
     @ColumnInfo(name= "Translations")
-    val translation: String,
+    val translation: String = "empty translation",
 
     @ColumnInfo(name = "TranslationDate")
-    var dateTranslated: Long,
+    var dateTranslated: Long = 0,
 
     @ColumnInfo(name = "Counter")
     var counter: Int = 0
