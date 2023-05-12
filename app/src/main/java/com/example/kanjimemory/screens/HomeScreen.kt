@@ -14,6 +14,7 @@ import com.example.kanjimemory.navigation.KanjiScreens
 import com.example.kanjimemory.ui.theme.KanjiMemoryTheme
 import com.example.kanjimemory.ui.theme.Purple200
 
+// In case Emulator is flickering: https://stackoverflow.com/questions/73349171/android-studio-avd-emulator-shows-a-black-flickering
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController()) {
     KanjiMemoryTheme {
@@ -36,6 +37,7 @@ fun HomeMenu(navController: NavController) {
 
         Button(
             onClick = {
+                // used to be: KanjiScreens.DragDropScreen.name
                 navController.navigate(route = KanjiScreens.DragDropScreen.name)
             },
             colors = ButtonDefaults.buttonColors(Purple200),
@@ -69,7 +71,10 @@ fun HomeMenu(navController: NavController) {
 
         Button(onClick = {navController.navigate(route = KanjiScreens.KanjiListScreen.name)},
             colors = ButtonDefaults.buttonColors(Purple200),
-            modifier = Modifier.height(80.dp)) {
+            modifier = Modifier
+                .height(80.dp)
+                .padding()
+        ) {
             Text(text = "Show all Kanjis", fontSize = 20.sp)
         }
     }

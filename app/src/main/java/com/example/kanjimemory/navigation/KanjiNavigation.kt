@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.screens.*
+import com.example.kanjimemory.sharedComposables.DropScreen
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -35,6 +36,7 @@ fun KanjiNavigation() {
         composable(KanjiScreens.DragDropScreen.name) {
             DragDropScreen(navController = navController)
         }
+
     }
 
 }
