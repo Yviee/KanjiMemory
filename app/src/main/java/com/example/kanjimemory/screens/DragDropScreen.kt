@@ -73,6 +73,12 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
 
                     Spacer(modifier = Modifier.padding(20.dp))
 
+                    FixedTranslation(item = firstTranslationItem)
+
+                    Spacer(modifier = Modifier.padding(20.dp))
+
+                    // kanjis need to be below FixedTranslation for the moment, since they would otherwise
+                    // get lost underneath it when dragged over
                     Row (
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -83,9 +89,7 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
                         }
                     }
 
-                    Spacer(modifier = Modifier.padding(20.dp))
 
-                    FixedTranslation(item = firstTranslationItem)
 
                     // using LazyGrid: https://stackoverflow.com/questions/64913067/reorder-lazycolumn-items-with-drag-drop
 
@@ -107,7 +111,7 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
 @Composable
 fun FixedTranslation(item: Kanji?) {
     Card(
-        elevation = 10.dp,
+        elevation = 8.dp,
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(2.dp, color = Color.White),
         backgroundColor = Purple200,
