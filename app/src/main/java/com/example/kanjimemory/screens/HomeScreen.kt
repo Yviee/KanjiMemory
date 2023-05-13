@@ -38,7 +38,7 @@ fun HomeMenu(navController: NavController) {
         Button(
             onClick = {
                 // used to be: KanjiScreens.DragDropScreen.name
-                navController.navigate(route = KanjiScreens.DragDropScreen.name)
+                navController.navigate(route = KanjiScreens.DragDropTryoutScreen.name)
             },
             colors = ButtonDefaults.buttonColors(Purple200),
             modifier = Modifier.height(80.dp)) {

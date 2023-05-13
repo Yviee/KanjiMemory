@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kanjimemory.model.Kanji
@@ -37,6 +38,10 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
         }
     }
 
+    val displayToast: MutableLiveData<String> by lazy {
+        MutableLiveData<String>("")
+    }
+
     // private set to only be able to change value inside of viewModel
     var isCurrentlyDragging by mutableStateOf(false)
         private set
@@ -56,16 +61,16 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
     }
 
     fun addKanji(kanji: Kanji){
-        println("Added kanji")
+        println("Added kanji: $kanji")
         addedKanji.add(kanji)
     }
 
     fun checkIfMatch(kanji: Kanji) {
         if (kanji == randomKanjiList.value.first()) {
+            println("Kanji matches: $kanji")
             getRandomKanjis()
-            // reposition kanjiCards
+        } else {
+            println("Kanji not matching: $kanji")
         }
-
     }
-
 }

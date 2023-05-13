@@ -1,7 +1,6 @@
 package com.example.kanjimemory.sharedComposables
 
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,14 +37,12 @@ fun DraggableScreen(
         {
             // content here is normal screen
             content()
-            //TODO: code may be deleted from here...
             // check if user is currently dragging, then define targetSize
-            /*if (state.isDragging) {
+            if (state.isDragging) {
                 var targetSize by remember {
                     mutableStateOf(IntSize.Zero)
                 }
                 // Logic to increase the size of dragItem
-                // TODO: delete this, it just makes item bigger.
                 Box(modifier = Modifier
                     .graphicsLayer {
                         val offset = (state.dragPosition + state.dragOffset)
@@ -61,10 +58,9 @@ fun DraggableScreen(
                     }
                 ) {
                     // this is the copy of the draggable composable
-                    //state.draggableComposable?.invoke()
+                    state.draggableComposable?.invoke()
                 }
-            }*/
-            // TODO: delete up to here!
+            }
         }
     }
 }
@@ -105,7 +101,7 @@ fun <T> DragTarget(
                 currentState.isDragging = true
                 currentState.dragPosition = currentPosition + it
                 // draggableComposable copies the composable!
-                //currentState.draggableComposable = content
+                currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
                 change.consumeAllChanges()
                 currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
@@ -113,7 +109,6 @@ fun <T> DragTarget(
                 dragDropViewModel.stopDragging()
                 currentState.dragOffset = Offset.Zero
                 currentState.isDragging = false
-
             }, onDragCancel = {
                 dragDropViewModel.stopDragging()
                 currentState.dragOffset = Offset.Zero
@@ -169,7 +164,7 @@ internal class DragTargetInfo {
     var dragPosition by mutableStateOf(Offset.Zero)
     var dragOffset by mutableStateOf(Offset.Zero)
     // TODO: draggableComposable might not be necessary - this is to copy composable
-    //var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
+    var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
     // e.g., pass data to viewModel to process data
     var dataToDrop by mutableStateOf<Any?>(null)
 }

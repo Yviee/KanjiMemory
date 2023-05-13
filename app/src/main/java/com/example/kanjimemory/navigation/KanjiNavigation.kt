@@ -33,8 +33,8 @@ fun KanjiNavigation() {
             RepetitionScreen(navController = navController)
         }
 
-        composable(KanjiScreens.DragDropScreen.name) {
-            DragDropScreen(navController = navController)
+        composable(KanjiScreens.DragDropTryoutScreen.name) {
+            DragDropTryoutScreen(navController = navController)
         }
 
     }

@@ -1,15 +1,9 @@
-
 package com.example.kanjimemory.screens
-/*
+
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,70 +20,92 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
+import com.example.kanjimemory.sharedComposables.DragTarget
 import com.example.kanjimemory.sharedComposables.DraggableScreen
+import com.example.kanjimemory.sharedComposables.DropItem
 import com.example.kanjimemory.sharedComposables.DropScreen
 import com.example.kanjimemory.ui.theme.Purple200
+import com.example.kanjimemory.ui.theme.Purple500
 import com.example.kanjimemory.viewmodel.DragDropViewModel
+import kotlinx.coroutines.flow.observeOn
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DragDropScreen(navController: NavController = rememberNavController()) {
+fun DragDropTryoutScreen(navController: NavController = rememberNavController()) {
 
-    val dragDropViewModel: DragDropViewModel = hiltViewModel()
-    val database = dragDropViewModel.randomKanjiList.collectAsState().value
-    val firstTranslationItem = database.firstOrNull()
-    val kanjis = database.shuffled()
+
 
     Scaffold(
-        topBar = {
-            TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
-                Row {
-                    Icon(imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Arrow back",
-                        modifier = Modifier.clickable {
-                            navController.popBackStack()        // go back to last screen
-                        })
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = "Back to Main Menu")
-                }
+    topBar = {
+        TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
+            Row {
+                Icon(imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Arrow back",
+                    modifier = Modifier.clickable {
+                        navController.popBackStack()        // go back to last screen
+                    })
+                Spacer(modifier = Modifier.width(20.dp))
+                Text(text = "Back to Main Menu")
             }
-        })
+        }
+    })
     {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.primary
         ) {
+            Spacer(modifier = Modifier.padding(20.dp))
+
             DraggableScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                val dragDropViewModel: DragDropViewModel = hiltViewModel()
+                val database = dragDropViewModel.randomKanjiList.collectAsState().value
+                val firstTranslationItem = database.firstOrNull()
+                val kanjis = database.shuffled()
 
-                //DropScreen(database, dragDropViewModel)
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
+                Spacer(modifier = Modifier.padding(20.dp))
+
+                firstTranslationItem?.let { DropScreen(kanjis, dragDropViewModel, it) }
+
+                /*Column(
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
                     Spacer(modifier = Modifier.padding(20.dp))
 
-                    FixedTranslation(item = firstTranslationItem)
+                    DropItem<Kanji>(
+                        modifier = Modifier) { isInBound, kanjiItem ->
+                        if (kanjiItem != null) {
+                            // only if user drops item, then kanjiItem (the data) will not be null
+                            LaunchedEffect(key1 = kanjiItem) {
+                                dragDropViewModel.addKanji(kanjiItem)
+                            }
+                        }
+                            FixedTranslation(
+                                item = firstTranslationItem,
+                                isInBound = isInBound
+                            )
 
+                    }
                     Spacer(modifier = Modifier.padding(20.dp))
 
                     // kanjis need to be below FixedTranslation for the moment, since they would otherwise
                     // get lost underneath it when dragged over
                     Row (
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxSize(),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         kanjis.forEach { kanji ->
-                            DraggableKanjiCard(item = kanji)
+                            DragTarget(dataToDrop = kanji, dragDropViewModel = dragDropViewModel) {
+                                DraggableKanjiCard(item = kanji)
+                            }
                         }
                     }
-
 
 
                     // using LazyGrid: https://stackoverflow.com/questions/64913067/reorder-lazycolumn-items-with-drag-drop
@@ -103,19 +119,19 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
                     // TODO: make Fixedtranslation dropTarget; make KanjiCard dragtarget and appear on top
                     // may have to put everything in Grid to be able to get dropCards to access fixed card
                     // implement something like: https://github.com/MatthiasKerat/DragAndDropYT/tree/main/app/src/main/java/com/kapps/draganddrop
-                }
+                }*/
             }
         }
     }
 }
 
 @Composable
-fun FixedTranslation(item: Kanji?) {
+fun FixedTranslation(item: Kanji?, isInBound: Boolean) {
     Card(
         elevation = 8.dp,
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(2.dp, color = Color.White),
-        backgroundColor = Purple200,
+        backgroundColor = if (isInBound) Purple200 else Purple500,
         modifier = Modifier
             .width(300.dp)
             .height(170.dp)
@@ -151,7 +167,6 @@ fun DraggableKanjiCard(item: Kanji) {
                     offsetY += dragAmount.y
                 }
             }
-
     ) {
         Card(
             elevation = 10.dp,
@@ -173,14 +188,14 @@ fun DraggableKanjiCard(item: Kanji) {
 @Preview(showBackground = true)
 @Composable
 fun FixedCardPreview() {
-    FixedTranslation(
+    /*FixedTranslation(
         item = Kanji(
             translation = "person",
             kanji = "人",
             id = 0,
             dateTranslated = 123
         )
-    )
+    )*/
 }
 
 @Preview(showBackground = true)
@@ -194,4 +209,4 @@ fun KanjiCardPreview() {
             dateTranslated = 123
         )
     )
-}*/
+}

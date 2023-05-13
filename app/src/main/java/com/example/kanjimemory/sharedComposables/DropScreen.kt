@@ -3,6 +3,7 @@ package com.example.kanjimemory.sharedComposables
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -28,7 +29,7 @@ import com.example.kanjimemory.viewmodel.DragDropViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel) {
+fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel, firstItem: Kanji) {
 
     // item size now depends on size of screen
     val screenWidth = LocalConfiguration.current.screenWidthDp
@@ -41,10 +42,9 @@ fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel) {
     ){
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceEvenly
         ){
             kanjiList.forEach { kanji ->
                 DragTarget(
@@ -53,6 +53,20 @@ fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel) {
                 ) {
                     //DraggableKanjiCard(item = kanji)
 
+                    Box (
+                        modifier = Modifier
+                            .size(Dp(screenWidth / 5f))
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(Purple200, RoundedCornerShape(20.dp))
+                            .border(BorderStroke(2.dp, color = Color.White)),
+                        contentAlignment = Alignment.Center
+                    )
+                    {
+                        Text(
+                            text = kanji.kanji,
+                            style = MaterialTheme.typography.h4,
+                        )
+                    }
                     /*Box (
                         modifier = Modifier
                             .size(Dp(screenWidth / 5f))
@@ -69,8 +83,56 @@ fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel) {
                 }
             }
         }
+
+        // TODO: find out why it doesn't take the correct kanji item despite displaying them
+        // it's probably got something to do with .shuffled and / or how copies are made!
+        DropItem<Kanji>(
+            modifier = Modifier
+                //.size(Dp(screenWidth / 3.5f))
+        ) { isInBound, kanjiItem ->
+            if(kanjiItem != null){
+                // only if user drops item, then kanjiItem (the data) will not be null
+                    dragDropViewModel.checkIfMatch(kanjiItem)
+            }
+
+            FixedTranslation(
+                item = firstItem,
+                isInBound = isInBound
+            )
+           /* if(isInBound){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(1.dp, color = Color.Red, shape = RoundedCornerShape(15.dp))
+                        .background(Color.Gray.copy(0.5f), RoundedCornerShape(15.dp)),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = kanjiList.firstOrNull()?.translation!!,
+                        style = MaterialTheme.typography.body1,
+                    )
+                }
+            }else{
+                // if item is dragged, but not in bound, then box should be shown differently
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(1.dp, color = Color.White, shape = RoundedCornerShape(15.dp))
+                        .background(Color.Black.copy(0.6f), RoundedCornerShape(15.dp)),
+                    contentAlignment = Alignment.Center
+                ){
+                    Text(
+                        text = kanjiList.firstOrNull()?.translation!!,
+                        style = MaterialTheme.typography.body1,
+                    )
+                }
+            }*/
+        }
+
+        // composable for dropTarget should show clicked when dragItem is dragged
+        // TODO: use this logic for fixed translation, but without animated visibility
         // should only show up if item is currently dragging
-        AnimatedVisibility(
+        /*AnimatedVisibility(
             dragDropViewModel.isCurrentlyDragging,
             enter = slideInHorizontally (initialOffsetX = {it})
         ) {
@@ -113,6 +175,6 @@ fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel) {
                     }
                 }
             }
-        }
+        }*/
     }
 }
