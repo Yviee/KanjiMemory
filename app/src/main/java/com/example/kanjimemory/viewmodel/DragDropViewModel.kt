@@ -70,7 +70,7 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
             println("Kanji matches: $kanji")
             getRandomKanjis()
         } else {
-            println("Kanji not matching: $kanji")
+            println("Kanji not matching: $kanji and kanji to match is: ${randomKanjiList.value.first()}")
         }
     }
 }

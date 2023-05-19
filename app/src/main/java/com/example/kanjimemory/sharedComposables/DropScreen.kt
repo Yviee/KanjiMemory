@@ -1,8 +1,5 @@
 package com.example.kanjimemory.sharedComposables
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,28 +8,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
-import com.example.kanjimemory.screens.DraggableKanjiCard
 import com.example.kanjimemory.screens.FixedTranslation
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.viewmodel.DragDropViewModel
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel, firstItem: Kanji) {
+fun DropScreen(dragDropViewModel: DragDropViewModel, firstItem: Kanji) {
 
     // item size now depends on size of screen
     val screenWidth = LocalConfiguration.current.screenWidthDp
+
+    val kanjiList = dragDropViewModel.randomKanjiList.value
 
     Column(
         modifier = Modifier
@@ -47,6 +40,8 @@ fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel, fir
             horizontalArrangement = Arrangement.SpaceEvenly
         ){
             kanjiList.forEach { kanji ->
+                // Todo look at DragTarget to find out why kanji data to drop is not updating
+                // try something like MutableStateOf<T>
                 DragTarget(
                     dataToDrop = kanji,
                     dragDropViewModel = dragDropViewModel
@@ -67,19 +62,6 @@ fun DropScreen(kanjiList: List<Kanji>, dragDropViewModel: DragDropViewModel, fir
                             style = MaterialTheme.typography.h4,
                         )
                     }
-                    /*Box (
-                        modifier = Modifier
-                            .size(Dp(screenWidth / 5f))
-                            .clip(RoundedCornerShape(15.dp))
-                            .background(Purple200, RoundedCornerShape(15.dp)),
-                        contentAlignment = Alignment.Center
-                            )
-                    {
-                        Text(
-                            text = kanji.kanji,
-                            style = MaterialTheme.typography.body1,
-                        )
-                    }*/
                 }
             }
         }

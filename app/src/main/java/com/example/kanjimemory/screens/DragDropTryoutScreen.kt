@@ -20,20 +20,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
-import com.example.kanjimemory.sharedComposables.DragTarget
 import com.example.kanjimemory.sharedComposables.DraggableScreen
-import com.example.kanjimemory.sharedComposables.DropItem
 import com.example.kanjimemory.sharedComposables.DropScreen
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.ui.theme.Purple500
 import com.example.kanjimemory.viewmodel.DragDropViewModel
-import kotlinx.coroutines.flow.observeOn
 import kotlin.math.roundToInt
 
 @Composable
 fun DragDropTryoutScreen(navController: NavController = rememberNavController()) {
-
-
 
     Scaffold(
     topBar = {
@@ -55,7 +50,6 @@ fun DragDropTryoutScreen(navController: NavController = rememberNavController())
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.primary
         ) {
-            Spacer(modifier = Modifier.padding(20.dp))
 
             DraggableScreen(
                 modifier = Modifier
@@ -66,9 +60,7 @@ fun DragDropTryoutScreen(navController: NavController = rememberNavController())
                 val firstTranslationItem = database.firstOrNull()
                 val kanjis = database.shuffled()
 
-                Spacer(modifier = Modifier.padding(20.dp))
-
-                firstTranslationItem?.let { DropScreen(kanjis, dragDropViewModel, it) }
+                firstTranslationItem?.let { DropScreen(dragDropViewModel, it) }
 
                 /*Column(
                     modifier = Modifier.fillMaxSize(),
