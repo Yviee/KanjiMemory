@@ -1,6 +1,9 @@
 package com.example.kanjimemory.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
@@ -11,17 +14,22 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
+import com.example.kanjimemory.sharedComposables.DragTarget
 import com.example.kanjimemory.sharedComposables.DraggableScreen
-import com.example.kanjimemory.sharedComposables.DropScreen
+import com.example.kanjimemory.sharedComposables.DropItem
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.ui.theme.Purple500
 import com.example.kanjimemory.viewmodel.DragDropViewModel
@@ -29,6 +37,11 @@ import kotlin.math.roundToInt
 
 @Composable
 fun DragDropTryoutScreen(navController: NavController = rememberNavController()) {
+
+    val dragDropViewModel: DragDropViewModel = hiltViewModel()
+    val kanjiList = dragDropViewModel.randomKanjiList.collectAsState().value
+    val firstTranslationItem = kanjiList.firstOrNull()
+    val kanjis = kanjiList.shuffled()
 
     Scaffold(
     topBar = {
@@ -55,12 +68,77 @@ fun DragDropTryoutScreen(navController: NavController = rememberNavController())
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                val dragDropViewModel: DragDropViewModel = hiltViewModel()
-                val database = dragDropViewModel.randomKanjiList.collectAsState().value
-                val firstTranslationItem = database.firstOrNull()
-                val kanjis = database.shuffled()
 
-                firstTranslationItem?.let { DropScreen(dragDropViewModel, it) }
+                //firstTranslationItem?.let { DropScreen(dragDropViewModel, it) }
+                //DropScreen(dragDropViewModel, database)
+
+
+                val screenWidth = LocalConfiguration.current.screenWidthDp
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(50.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ){
+                        kanjis.forEach { kanji ->
+                            // Todo look at DragTarget to find out why kanji data to drop is not updating
+                            // try something like MutableStateOf<T>
+                            DragTarget(
+                                dataToDrop = kanji,
+                                dragDropViewModel = dragDropViewModel
+                            ) {
+                                //DraggableKanjiCard(item = kanji)
+
+                                Box (
+                                    modifier = Modifier
+                                        .size(Dp(screenWidth / 5f))
+                                        .clip(RoundedCornerShape(20.dp))
+                                        .background(Purple200, RoundedCornerShape(20.dp))
+                                        .border(BorderStroke(2.dp, color = Color.White)),
+                                    contentAlignment = Alignment.Center
+                                )
+                                {
+                                    Text(
+                                        text = kanji.kanji,
+                                        style = MaterialTheme.typography.h4,
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    val valueContext = LocalContext.current
+
+                    // TODO: find out why it doesn't take the correct kanji item despite displaying them
+                    // it's probably got something to do with .shuffled and / or how copies are made!
+                    DropItem<Kanji>(
+                        modifier = Modifier
+                    ) { isInBound, kanjiItem ->
+                        if(kanjiItem != null){
+                            // only if user drops item, then kanjiItem (the data) will not be null
+                            dragDropViewModel.checkIfMatch(kanjiItem)
+                            Toast.makeText(
+                                valueContext,
+                                dragDropViewModel.displayToast.value,
+                                Toast.LENGTH_SHORT)
+                                .show()
+                        }
+
+                        FixedTranslation(
+                            item = firstTranslationItem,
+                            isInBound = isInBound
+                        )
+                    }
+                }
+
+
 
                 /*Column(
                     modifier = Modifier.fillMaxSize(),
@@ -108,7 +186,6 @@ fun DragDropTryoutScreen(navController: NavController = rememberNavController())
                     // https://proandroiddev.com/basic-drag-n-drop-in-jetpack-compose-a6919ba58ba8
                     // TODO: find out why kanjis shuffle twice :S
                     // TODO: find out how to center text that goes over more than one line
-                    // TODO: make Fixedtranslation dropTarget; make KanjiCard dragtarget and appear on top
                     // may have to put everything in Grid to be able to get dropCards to access fixed card
                     // implement something like: https://github.com/MatthiasKerat/DragAndDropYT/tree/main/app/src/main/java/com/kapps/draganddrop
                 }*/

@@ -30,7 +30,7 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
 
     fun getRandomKanjis() = viewModelScope.launch(Dispatchers.IO) {
         repository.getRandomKanjis().distinctUntilChanged().collect { listOfRandomKanjis ->
-            if (listOfRandomKanjis.isNullOrEmpty()) {
+            if (listOfRandomKanjis.isEmpty()) {
                 Log.d("databasetryout", "No random kanjis here!")
             } else {
                 _randomKanjiList.value = listOfRandomKanjis
@@ -67,10 +67,10 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
 
     fun checkIfMatch(kanji: Kanji) {
         if (kanji == randomKanjiList.value.first()) {
-            println("Kanji matches: $kanji")
+            displayToast.value = "Congrats, you got it! ^_^"
             getRandomKanjis()
         } else {
-            println("Kanji not matching: $kanji and kanji to match is: ${randomKanjiList.value.first()}")
+            displayToast.value = "Sorry, try again with another kanji."
         }
     }
 }

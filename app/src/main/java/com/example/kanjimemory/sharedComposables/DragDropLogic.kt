@@ -17,9 +17,6 @@ import com.example.kanjimemory.viewmodel.DragDropViewModel
 
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
 
-// TODO: make it drag the composable itself, not just a copy; if not possible, make copy appear as original, make original invisible
-//  using alpha modifier of 0f
-
 @Composable
 fun DraggableScreen(
     modifier: Modifier = Modifier,
@@ -39,9 +36,7 @@ fun DraggableScreen(
             content()
             // check if user is currently dragging, then define targetSize
             if (state.isDragging) {
-                var targetSize by remember {
-                    mutableStateOf(IntSize.Zero)
-                }
+                var targetSize by remember { mutableStateOf(IntSize.Zero) }
                 // Logic to increase the size of dragItem
                 Box(modifier = Modifier
                     .graphicsLayer {
@@ -53,9 +48,7 @@ fun DraggableScreen(
                         translationX = offset.x.minus(targetSize.width / 2)
                         translationY = offset.y.minus(targetSize.height / 2)
                     }
-                    .onGloballyPositioned {
-                        targetSize = it.size
-                    }
+                    .onGloballyPositioned { targetSize = it.size }
                 ) {
                     // this is the copy of the draggable composable
                     state.draggableComposable?.invoke()
@@ -89,10 +82,8 @@ fun <T> DragTarget(
     get from onGloballyPositioned
      */
     Box(modifier = modifier
-        .onGloballyPositioned {
-            currentPosition = it.localToWindow(Offset.Zero)
-        }
-        .pointerInput(Unit) {
+        .onGloballyPositioned { currentPosition = it.localToWindow(Offset.Zero) }
+        .pointerInput(dataToDrop) {
             // define logic for long press gestures
             detectDragGestures(onDragStart = {
                 // update viewModel
@@ -136,9 +127,7 @@ fun <T> DropItem(
     val dragPosition = dragInfo.dragPosition
     val dragOffset = dragInfo.dragOffset
     // this checks if DragTarget is on top of DropItem
-    var isCurrentDropTarget by remember {
-        mutableStateOf(false)
-    }
+    var isCurrentDropTarget by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.onGloballyPositioned {
         it.boundsInWindow().let { rect ->
