@@ -12,13 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.kanjimemory.model.Kanji
 import com.example.kanjimemory.ui.theme.Purple200
 
 
 @ExperimentalMaterialApi
 @Composable
-fun MemoryCard() {
+fun MemoryTryOutCard() {
 
     Column {
         var checked by remember { mutableStateOf(false) }
@@ -81,5 +80,5 @@ fun MemoryCard() {
 @Preview(showBackground = true)
 @Composable
 fun CardPreview() {
-    MemoryCard()
+    MemoryTryOutCard()
 }

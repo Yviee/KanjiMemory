@@ -6,12 +6,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -24,34 +24,37 @@ import com.example.kanjimemory.viewmodel.ExerciseViewModel
 @ExperimentalMaterialApi
 @Composable
 fun ExerciseScreen(navController: NavController = rememberNavController()) {
-        val exerciseViewModel: ExerciseViewModel = hiltViewModel()
+    val exerciseViewModel: ExerciseViewModel = hiltViewModel()
 
-        Scaffold(
-            topBar = {
-                TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
-                    Row {
-                        Icon(imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Arrow back",
-                            modifier = Modifier.clickable {
-                                navController.popBackStack()        // go back to last screen
-                            })
-                        Spacer(modifier = Modifier.width(20.dp))
-                        Text(text = "Back to Main Menu")
-                    }
+    Scaffold(
+        topBar = {
+            TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
+                Row {
+                    Icon(imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Arrow back",
+                        modifier = Modifier.clickable {
+                            navController.popBackStack()        // go back to last screen
+                        })
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Text(text = "Back to Main Menu")
                 }
-            }) {
-            Surface(modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colors.primary) {
+            }
+        }) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.primary
+        ) {
+            // TODO: collectAsStateWithLifecycle() -> update dependencies!
+            // https://blog.protein.tech/exploring-differences-collectasstate-collectasstatewithlifecycle-7fde491110c0
+            val database = exerciseViewModel.randomKanjiList.collectAsState().value
 
-                // needs to be instantiated here because the shuffled function would shuffle all
-                // kanjis on each recomposition (each change inside cards)
-                // TODO: collectAsStateWithLifecycle() -> update dependencies!
-                // https://blog.protein.tech/exploring-differences-collectasstate-collectasstatewithlifecycle-7fde491110c0
-                val database = exerciseViewModel.randomKanjiList.collectAsState().value
+            val kanjis = database.shuffled()
 
-                val kanjis = database.shuffled()
-
-                MemoryGrid(kanjisShuffled = kanjis, translations = database, exerciseViewModel = exerciseViewModel)
+            MemoryGrid(
+                kanjisShuffled = kanjis,
+                translations = database,
+                exerciseViewModel = exerciseViewModel
+            )
         }
     }
 }
@@ -59,34 +62,44 @@ fun ExerciseScreen(navController: NavController = rememberNavController()) {
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun MemoryGrid (kanjisShuffled: List<Kanji>, translations: List<Kanji>, exerciseViewModel: ExerciseViewModel) {
+fun MemoryGrid(
+    kanjisShuffled: List<Kanji>,
+    translations: List<Kanji>,
+    exerciseViewModel: ExerciseViewModel,
+) {
 
-    //val database = exerciseViewModel.randomKanjiList.collectAsState().value
-    //val kanjis = database.shuffled()    // shuffles kanjis on each recomposition -> leads to shifting cards
-
-    val solvedKanjis = exerciseViewModel.solvedKanjis.observeAsState()  // observe the solved kanjis state
+    val solvedKanjis =
+        exerciseViewModel.solvedKanjis.observeAsState()  // observe the solved kanjis state
 
     Box(contentAlignment = Alignment.Center) {
         Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Column {
                 kanjisShuffled.forEach { kanji ->
-                    KanjiCard(
+                    MemoryCard(
                         kanji = kanji,
-                        solvedKanjis = solvedKanjis.value,  // pass solved kanjis state
+                        word = kanji.kanji,
+                        solvedKanjis = solvedKanjis.value,
                         onItemClick = {
-                        exerciseViewModel.cardClicked.value = !(exerciseViewModel.cardClicked.value)!!
-                        exerciseViewModel.addToSelected(kanjiId = kanji.id)
-                        exerciseViewModel.reload()
-                    })
+                            exerciseViewModel.kanjiCardClicked.value =
+                                !(exerciseViewModel.kanjiCardClicked.value)!!
+                            exerciseViewModel.addToSelected(kanjiId = kanji.id)
+                            exerciseViewModel.reload()
+                        })
                 }
+
             }
             Column {
                 translations.forEach { translation ->
-                    TranslationCard(translation = translation, exerciseViewModel = exerciseViewModel, onItemClick = {
-                        exerciseViewModel.cardClicked.value = !(exerciseViewModel.cardClicked.value)!!
-                        exerciseViewModel.addToSelected(kanjiId = translation.id)
-                        exerciseViewModel.reload()
-                    })
+                    MemoryCard(
+                        kanji = translation,
+                        word = translation.translation,
+                        solvedKanjis = solvedKanjis.value,
+                        onItemClick = {
+                            exerciseViewModel.translationCardClicked.value =
+                                !(exerciseViewModel.translationCardClicked.value)!!
+                            exerciseViewModel.addToSelected(kanjiId = translation.id)
+                            exerciseViewModel.reload()
+                        })
                 }
             }
         }
@@ -95,9 +108,12 @@ fun MemoryGrid (kanjisShuffled: List<Kanji>, translations: List<Kanji>, exercise
 
 @ExperimentalMaterialApi
 @Composable
-fun KanjiCard(kanji: Kanji,
-              solvedKanjis: List<Int>?,
-              onItemClick: () -> Unit = {}) {
+fun MemoryCard(
+    kanji: Kanji,
+    word: String,
+    solvedKanjis: List<Int>?,
+    onItemClick: () -> Unit = {},
+) {
 
     IconToggleButton(
         checked = false,
@@ -108,67 +124,22 @@ fun KanjiCard(kanji: Kanji,
             .width(200.dp)
             .height(130.dp)
             .padding(20.dp),
-        enabled = !solvedKanjis!!.contains(kanji.id)) { // check if THIS kanji is inside solved kanjis -> if so disable
-        //val tint by animateColorAsState(if (kanjiSelected) Color(0xFF8E60BE) else Purple200)
+        enabled = !solvedKanjis!!.contains(kanji.id)
+    ) {
 
         Card(
             elevation = 10.dp,
             shape = RoundedCornerShape(20.dp),
             border = BorderStroke(2.dp, color = Color.White),
             backgroundColor = Purple200,
-            // tint was used in backgroundColor
         ) {
-            Column(modifier = Modifier.fillMaxSize(),
+            Column(
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(kanji.kanji, style = MaterialTheme.typography.h4)
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = word, style = MaterialTheme.typography.h4)
             }
         }
     }
-}
-
-    // https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#IconToggleButton(kotlin.Boolean,kotlin.Function1,androidx.compose.ui.Modifier,kotlin.Boolean,androidx.compose.foundation.interaction.MutableInteractionSource,kotlin.Function0)
-
-
-@ExperimentalMaterialApi
-@Composable
-fun TranslationCard(translation: Kanji,  exerciseViewModel: ExerciseViewModel, onItemClick: () -> Unit = {}) {
-
-    var translationSelected by remember { mutableStateOf(false) }
-
-    val disableClick = exerciseViewModel.disableCard(kanjiId = translation.id)
-
-    IconToggleButton(
-        checked = translationSelected,
-        onCheckedChange = {
-            translationSelected = it
-            onItemClick()
-        },
-        modifier = Modifier
-            .width(200.dp)
-            .height(130.dp)
-            .padding(20.dp),
-        enabled = disableClick) {
-        //val tint by animateColorAsState(if (translationSelected) Color(0xFF8E60BE) else Purple200)
-        Card(
-            elevation = 10.dp,
-            shape = RoundedCornerShape(20.dp),
-            border = BorderStroke(2.dp, color = Color.White),
-            backgroundColor = Purple200,
-            // tint was used in backgroundColor
-        ) {
-            Column(modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(translation.translation, style = MaterialTheme.typography.h4)
-            }
-        }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun MemoryPreview() {
-    //MemoryGrid()
 }
