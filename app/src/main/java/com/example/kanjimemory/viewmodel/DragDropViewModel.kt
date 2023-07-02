@@ -24,6 +24,9 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
     private val _randomKanjiList = MutableStateFlow<List<Kanji>> (emptyList())
     val randomKanjiList = _randomKanjiList.asStateFlow()
 
+    // TODO: try collecting asLiveData()
+    // try: https://developer.android.com/codelabs/advanced-kotlin-coroutines#11
+
     init {
         getRandomKanjis()
     }

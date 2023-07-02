@@ -45,7 +45,10 @@ fun ExerciseScreen(navController: NavController = rememberNavController()) {
 
                 // needs to be instantiated here because the shuffled function would shuffle all
                 // kanjis on each recomposition (each change inside cards)
+                // TODO: collectAsStateWithLifecycle() -> update dependencies!
+                // https://blog.protein.tech/exploring-differences-collectasstate-collectasstatewithlifecycle-7fde491110c0
                 val database = exerciseViewModel.randomKanjiList.collectAsState().value
+
                 val kanjis = database.shuffled()
 
                 MemoryGrid(kanjisShuffled = kanjis, translations = database, exerciseViewModel = exerciseViewModel)
