@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -210,7 +211,7 @@ fun FixedTranslation(item: Kanji?, isInBound: Boolean) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            item?.translation?.let { Text(text = it, style = MaterialTheme.typography.h3) }
+            item?.translation?.let { Text(text = it, style = MaterialTheme.typography.h3, textAlign = TextAlign.Center) }
         }
     }
 }

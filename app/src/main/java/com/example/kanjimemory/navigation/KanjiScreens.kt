@@ -6,5 +6,6 @@ enum class KanjiScreens {
     KanjiListScreen,
     RepetitionScreen,
     DragDropScreen,
-    DragDropTryoutScreen
+    DragDropTryoutScreen,
+    VibrationScreen
 }

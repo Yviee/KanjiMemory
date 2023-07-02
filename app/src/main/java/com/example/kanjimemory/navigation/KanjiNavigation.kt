@@ -1,5 +1,6 @@
 package com.example.kanjimemory.navigation
 
+import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -30,11 +31,19 @@ fun KanjiNavigation() {
         }
 
         composable(KanjiScreens.RepetitionScreen.name) {
-            RepetitionScreen(navController = navController)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                RepetitionScreen(navController = navController)
+            }
         }
 
         composable(KanjiScreens.DragDropTryoutScreen.name) {
             DragDropTryoutScreen(navController = navController)
+        }
+
+        composable(KanjiScreens.VibrationScreen.name) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                VibrationScreen(navController = navController)
+            }
         }
 
     }
