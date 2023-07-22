@@ -152,7 +152,7 @@ internal class DragTargetInfo {
     var isDragging: Boolean by mutableStateOf(false)
     var dragPosition by mutableStateOf(Offset.Zero)
     var dragOffset by mutableStateOf(Offset.Zero)
-    // TODO: draggableComposable might not be necessary - this is to copy composable
+    //  to copy composable
     var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
     // e.g., pass data to viewModel to process data
     var dataToDrop by mutableStateOf<Any?>(null)

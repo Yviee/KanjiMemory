@@ -50,12 +50,11 @@ fun HomeMenu(navController: NavController) {
 
         Button(
             onClick = {
-                // used to be: KanjiScreens.DragDropScreen.name
-                navController.navigate(route = KanjiScreens.DragDropTryoutScreen.name)
+                navController.navigate(route = KanjiScreens.ExerciseScreen.name)
             },
             colors = ButtonDefaults.buttonColors(Purple200),
             modifier = Modifier.height(80.dp)) {
-            Text(text = "Start Drag & Drop Exercise", fontSize = 20.sp, color = Color.White)
+            Text(text = "Start Kanji Memory", fontSize = 20.sp, color = Color.White)
         }
 
         Spacer(modifier = Modifier.padding(10.dp))
@@ -73,11 +72,11 @@ fun HomeMenu(navController: NavController) {
 
         Button(
             onClick = {
-                navController.navigate(route = KanjiScreens.ExerciseScreen.name)
-                         },
+                navController.navigate(route = KanjiScreens.DragDropScreen.name)
+            },
             colors = ButtonDefaults.buttonColors(Purple200),
             modifier = Modifier.height(80.dp)) {
-            Text(text = "Start Kanji Memory", fontSize = 20.sp, color = Color.White)
+            Text(text = "Start Drag & Drop Exercise", fontSize = 20.sp, color = Color.White)
         }
 
         Spacer(modifier = Modifier.padding(10.dp))
