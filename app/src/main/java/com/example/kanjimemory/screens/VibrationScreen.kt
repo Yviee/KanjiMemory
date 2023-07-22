@@ -29,7 +29,9 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
 
+
         val context = LocalContext.current
+
         val vibrator by lazy {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 val vibratorManager =
@@ -58,6 +60,17 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
             VibrationEffect.Composition.PRIMITIVE_CLICK,
             VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
         )
+
+
+        vibrator.vibrate(
+            VibrationEffect.startComposition().addPrimitive(
+                VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
+            ).addPrimitive(
+                VibrationEffect.Composition.PRIMITIVE_CLICK
+            ).compose()
+        )
+
+
 
         vibrationPrimitives.forEach { vibrationEffect ->
             Button(onClick = {
@@ -95,9 +108,26 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
 
 
         // create wave
-        val longTimings: LongArray = longArrayOf(50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200)
+        /*val longTimings: LongArray = longArrayOf(50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200)
         val longAmplitudes: IntArray =
             intArrayOf(33, 51, 75, 113, 170, 255, 0, 38, 62, 100, 160, 255)
+        val repeatIndex = -1 // Do not repeat.
+
+        Button(onClick = {
+            vibrator.vibrate(
+                VibrationEffect.createWaveform(
+                    longTimings,
+                    longAmplitudes,
+                    repeatIndex
+                )
+            )
+        }) {
+            Text(text = "Two Times VibrationEffect")
+        }*/
+
+        val longTimings: LongArray = longArrayOf(50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200)
+        val longAmplitudes: IntArray =
+            intArrayOf(33, 75, 113, 170, 255, 0, 38, 62, 100, 160, 255)
         val repeatIndex = -1 // Do not repeat.
 
         Button(onClick = {

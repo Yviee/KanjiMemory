@@ -56,6 +56,10 @@ class RepetitionViewModel @Inject constructor(private val repository: KanjiRepos
         MutableLiveData<String>("")
     }
 
+    val vibrationLong: MutableLiveData<Long> by lazy {
+        MutableLiveData<Long>(100)
+    }
+
     fun checkTranslation() {
 
         randomKanji.value?.dateTranslated = Date().time
@@ -63,6 +67,8 @@ class RepetitionViewModel @Inject constructor(private val repository: KanjiRepos
         if (translationToCheck == randomKanji.value?.translation) {
             val kanjiToUpdate: Kanji = randomKanji.value!!
             kanjiToUpdate.counter++
+            //vibrationBoolean.value = true
+            vibrationLong.value = 100
             displayToast.value = "You got it! ^_^"
             updateKanji(kanjiToUpdate)
         } else {
@@ -71,6 +77,8 @@ class RepetitionViewModel @Inject constructor(private val repository: KanjiRepos
                 kanjiToUpdate.counter--
                 updateKanji(kanjiToUpdate)
             }
+            //vibrationBoolean.value = false
+            vibrationLong.value = 500
             displayToast.value = "Correct translation: ${randomKanji.value?.translation}"
         }
     }
