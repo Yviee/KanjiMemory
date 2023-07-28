@@ -43,10 +43,6 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         MutableLiveData<Boolean>(false)
     }
 
-    val displayToast: MutableLiveData<String> by lazy {
-        MutableLiveData<String>("")
-    }
-
     private val _solvedKanjiList = mutableListOf<Int>()
 
     private var _solvedKanjis = MutableLiveData<List<Int>>(emptyList())
@@ -78,7 +74,6 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         if (_selectedKanjiList.isNotEmpty()) {
             if (kanjiCardClicked.value == true && translationCardClicked.value == true) {
                 if (_selectedKanjiList.contains(kanjiId)) {
-                    displayToast.value = "Congrats, you got it! ^_^"
                     matchedCardsNumber++
                     _solvedKanjiList.add(kanjiId)
                     val copyList = _solvedKanjiList.toList()

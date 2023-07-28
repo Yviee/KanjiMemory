@@ -1,6 +1,5 @@
 package com.example.kanjimemory.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +12,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -73,7 +71,6 @@ fun MemoryGrid(
 
     val solvedKanjis =
         exerciseViewModel.solvedKanjis.observeAsState()  // observe the solved kanjis state
-    val context = LocalContext.current
 
     Box(contentAlignment = Alignment.Center) {
         Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -106,11 +103,6 @@ fun MemoryGrid(
                         })
                 }
             }
-            Toast.makeText(
-                context,
-                exerciseViewModel.displayToast.value,
-                Toast.LENGTH_SHORT)
-                .show()
         }
     }
 }
