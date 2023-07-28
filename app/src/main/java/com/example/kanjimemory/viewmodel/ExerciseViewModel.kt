@@ -44,26 +44,17 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
     }
 
     private val _solvedKanjiList = mutableListOf<Int>()
-
     private var _solvedKanjis = MutableLiveData<List<Int>>(emptyList())
     val solvedKanjis: LiveData<List<Int>> = _solvedKanjis
 
     private var _selectedKanjiList = mutableListOf<Int>()
 
-    private var matchedCardsNumber = 0
-
-    val kanjiEnabled: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>(true)
-    }
-
-    val translationEnabled: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>(true)
-    }
+    private var matchedCardsCounter = 0
 
     fun reload() {
-        if (matchedCardsNumber == 5) {
+        if (matchedCardsCounter == 5) {
             getRandomKanjis()
-            matchedCardsNumber = 0
+            matchedCardsCounter = 0
             _solvedKanjiList.clear()
             _solvedKanjis.value = listOf()
         }
@@ -74,15 +65,13 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
         if (_selectedKanjiList.isNotEmpty()) {
             if (kanjiCardClicked.value == true && translationCardClicked.value == true) {
                 if (_selectedKanjiList.contains(kanjiId)) {
-                    matchedCardsNumber++
+                    matchedCardsCounter++
                     _solvedKanjiList.add(kanjiId)
                     val copyList = _solvedKanjiList.toList()
                     // need to make a deep copy of list: if only list is referenced, it will not trigger recomposition
                     _solvedKanjis.value = copyList
                     kanjiCardClicked.value = false
                     translationCardClicked.value = false
-                    kanjiEnabled.value = false
-                    translationEnabled.value = false
                 } else {
                     kanjiCardClicked.value = false
                     translationCardClicked.value = false

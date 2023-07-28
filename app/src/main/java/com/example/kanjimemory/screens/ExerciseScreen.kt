@@ -77,7 +77,7 @@ fun MemoryGrid(
             Column {
                 kanjisShuffled.forEach { kanji ->
                     MemoryCard(
-                        kanji = kanji,
+                        kanjiObject = kanji,
                         word = kanji.kanji,
                         solvedKanjis = solvedKanjis.value,
                         onItemClick = {
@@ -92,7 +92,7 @@ fun MemoryGrid(
             Column {
                 translations.forEach { translation ->
                     MemoryCard(
-                        kanji = translation,
+                        kanjiObject = translation,
                         word = translation.translation,
                         solvedKanjis = solvedKanjis.value,
                         onItemClick = {
@@ -110,7 +110,7 @@ fun MemoryGrid(
 @ExperimentalMaterialApi
 @Composable
 fun MemoryCard(
-    kanji: Kanji,
+    kanjiObject: Kanji,
     word: String,
     solvedKanjis: List<Int>?,
     onItemClick: () -> Unit = {},
@@ -125,7 +125,7 @@ fun MemoryCard(
             .width(200.dp)
             .height(130.dp)
             .padding(20.dp),
-        enabled = !solvedKanjis!!.contains(kanji.id)
+        enabled = !solvedKanjis!!.contains(kanjiObject.id)
     ) {
 
         Card(
