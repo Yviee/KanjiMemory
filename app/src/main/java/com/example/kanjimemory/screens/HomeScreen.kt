@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -32,15 +33,19 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
 fun HomeMenu(navController: NavController) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(5.dp)) {
 
-        Headline(text = "Welcome")
-        Headline(text = "to")
-        Headline(text = "Kanji Memory!")
+        Headline(text = "Welcome\nto\nKanji Memory!")
 
         Spacer(modifier = Modifier.height(50.dp))
 
         HomeButton(onClick = {
             navController.navigate(route = KanjiScreens.VibrationScreen.name)
         }, text = "VibrationScreen")
+
+        Spacer(modifier = Modifier.padding(10.dp))
+
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.KanjiListScreen.name)
+        }, text = "Show all Kanjis")
 
         Spacer(modifier = Modifier.padding(10.dp))
 
@@ -59,18 +64,16 @@ fun HomeMenu(navController: NavController) {
         HomeButton(onClick = {
             navController.navigate(route = KanjiScreens.DragDropScreen.name)
         }, text = "Start Drag & Drop Exercise")
-
-        Spacer(modifier = Modifier.padding(10.dp))
-
-        HomeButton(onClick = {
-            navController.navigate(route = KanjiScreens.KanjiListScreen.name)
-        }, text = "Show all Kanjis")
     }
 }
 
 @Composable
 fun Headline(text: String) {
-    Text(text = text, fontSize = 40.sp, fontFamily = FontFamily.Cursive, color = Color.White)
+    Text(text = text,
+        fontSize = 40.sp,
+        fontFamily = FontFamily.Cursive,
+        color = Color.White,
+        textAlign = TextAlign.Center)
 }
 
 @Composable
