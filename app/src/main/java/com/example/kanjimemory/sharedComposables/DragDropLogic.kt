@@ -18,7 +18,7 @@ import com.example.kanjimemory.viewmodel.DragDropViewModel
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
 
 @Composable
-fun DraggableScreen(
+fun DragDropLogicScreen(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
