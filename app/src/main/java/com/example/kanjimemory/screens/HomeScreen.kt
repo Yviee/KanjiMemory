@@ -31,63 +31,55 @@ fun HomeScreen(navController: NavController = rememberNavController()) {
 @Composable
 fun HomeMenu(navController: NavController) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(5.dp)) {
-        Text(text = "Welcome", fontSize = 40.sp, fontFamily = FontFamily.Cursive, color = Color.White)
-        Text(text = "to", fontSize = 40.sp, fontFamily = FontFamily.Cursive, color = Color.White)
-        Text(text = "Kanji Memory!", fontSize = 40.sp, fontFamily = FontFamily.Cursive, color = Color.White)
+
+        Headline(text = "Welcome")
+        Headline(text = "to")
+        Headline(text = "Kanji Memory!")
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        Button(
-            onClick = {
-                navController.navigate(route = KanjiScreens.VibrationScreen.name)
-            },
-            colors = ButtonDefaults.buttonColors(Purple200),
-            modifier = Modifier.height(80.dp)) {
-            Text(text = "VibrationScreen", fontSize = 20.sp, color = Color.White)
-        }
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.VibrationScreen.name)
+        }, text = "VibrationScreen")
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        Button(
-            onClick = {
-                navController.navigate(route = KanjiScreens.ExerciseScreen.name)
-            },
-            colors = ButtonDefaults.buttonColors(Purple200),
-            modifier = Modifier.height(80.dp)) {
-            Text(text = "Start Kanji Memory", fontSize = 20.sp, color = Color.White)
-        }
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.ExerciseScreen.name)
+        }, text = "Start Kanji Memory")
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        Button(
-            onClick = {
-                navController.navigate(route = KanjiScreens.RepetitionScreen.name)
-            },
-            colors = ButtonDefaults.buttonColors(Purple200),
-            modifier = Modifier.height(80.dp)) {
-            Text(text = "Start Kanji Repetition", fontSize = 20.sp, color = Color.White)
-        }
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.RepetitionScreen.name)
+        }, text = "Start Kanji Repetition")
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        Button(
-            onClick = {
-                navController.navigate(route = KanjiScreens.DragDropScreen.name)
-            },
-            colors = ButtonDefaults.buttonColors(Purple200),
-            modifier = Modifier.height(80.dp)) {
-            Text(text = "Start Drag & Drop Exercise", fontSize = 20.sp, color = Color.White)
-        }
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.DragDropScreen.name)
+        }, text = "Start Drag & Drop Exercise")
 
         Spacer(modifier = Modifier.padding(10.dp))
 
-        Button(onClick = {navController.navigate(route = KanjiScreens.KanjiListScreen.name)},
-            colors = ButtonDefaults.buttonColors(Purple200),
-            modifier = Modifier
-                .height(80.dp)
-                .padding()
-        ) {
-            Text(text = "Show all Kanjis", fontSize = 20.sp, color = Color.White)
-        }
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.KanjiListScreen.name)
+        }, text = "Show all Kanjis")
+    }
+}
+
+@Composable
+fun Headline(text: String) {
+    Text(text = text, fontSize = 40.sp, fontFamily = FontFamily.Cursive, color = Color.White)
+}
+
+@Composable
+fun HomeButton(onClick: () -> Unit, text: String) {
+    Button(onClick = onClick,
+        colors = ButtonDefaults.buttonColors(Purple200),
+        modifier = Modifier
+            .height(80.dp)
+    ) {
+        Text(text = text, fontSize = 20.sp, color = Color.White)
     }
 }
