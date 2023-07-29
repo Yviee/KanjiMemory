@@ -42,16 +42,7 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
         MutableLiveData<String>("")
     }
 
-    // private set to only be able to change value inside of viewModel
-    var isCurrentlyDragging by mutableStateOf(false)
-        private set
-
-    var items by mutableStateOf(emptyList<Kanji>())
-        private set
-
-    var addedKanji = mutableStateListOf<Kanji>()
-        private set
-
+    private var isCurrentlyDragging by mutableStateOf(false)
 
     fun startDragging(){
         isCurrentlyDragging = true
@@ -60,17 +51,12 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
         isCurrentlyDragging = false
     }
 
-    fun addKanji(kanji: Kanji){
-        println("Added kanji: $kanji")
-        addedKanji.add(kanji)
-    }
-
     fun checkIfMatch(kanji: Kanji) {
         if (kanji == randomKanjiList.value.first()) {
             displayToast.value = "Congrats, you got it! ^_^"
             getRandomKanjis()
         } else {
-            displayToast.value = "Sorry, try again with another kanji."
+            displayToast.value = "Sorry, try again another kanji."
         }
     }
 }
