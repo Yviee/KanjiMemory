@@ -22,9 +22,7 @@ fun DragDropLogicScreen(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
-    /*
-    DraggableScreen is wrapper around normal screen and makes it possible to drag and drop items and react
-     */
+    //DraggableScreen is wrapper around normal screen and makes it possible to drag and drop items and react
 
     val state = remember { DragTargetInfo() }
 
@@ -32,7 +30,7 @@ fun DragDropLogicScreen(
     CompositionLocalProvider(LocalDragTargetInfo provides state) {
         Box(modifier = modifier.fillMaxSize())
         {
-            // content here is normal screen
+            // used for actual screen
             content()
             // check if user is currently dragging, then define targetSize
             if (state.isDragging) {
@@ -84,7 +82,7 @@ fun <T> DragTarget(
     Box(modifier = modifier
         .onGloballyPositioned { currentPosition = it.localToWindow(Offset.Zero) }
         .pointerInput(dataToDrop) {
-            // define logic for long press gestures
+            // define logic for gestures
             detectDragGestures(onDragStart = {
                 // update viewModel
                 dragDropViewModel.startDragging()
