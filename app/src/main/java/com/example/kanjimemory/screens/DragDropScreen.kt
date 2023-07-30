@@ -94,9 +94,7 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
 
                     val valueContext = LocalContext.current
 
-                    DropItem<Kanji>(
-                        modifier = Modifier
-                    ) { isInBound, kanjiItem ->
+                    DropItem<Kanji> { isInBound, kanjiItem ->
                         if (kanjiItem != null) {
                             // only if user drops item, then kanjiItem (the data) will not be null
                             dragDropViewModel.checkIfMatch(kanjiItem)

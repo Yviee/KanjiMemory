@@ -22,7 +22,7 @@ fun DragDropLogicScreen(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
-    //DraggableScreen is wrapper around normal screen and makes it possible to drag and drop items and react
+    //DragDropLogicScreen is wrapper around normal screen and makes it possible to drag and drop items and react
 
     val state = remember { DragTargetInfo() }
 
@@ -110,7 +110,7 @@ fun <T> DragTarget(
 
 @Composable
 fun <T> DropItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     content: @Composable() (BoxScope.(isInBound: Boolean, data: T?) -> Unit)
 ) {
 
@@ -125,24 +125,24 @@ fun <T> DropItem(
     val dragPosition = dragInfo.dragPosition
     val dragOffset = dragInfo.dragOffset
     // this checks if DragTarget is on top of DropItem
-    var isCurrentDropTarget by remember { mutableStateOf(false) }
+    var isOnDropTarget by remember { mutableStateOf(false) }
 
     Box(modifier = modifier.onGloballyPositioned {
         it.boundsInWindow().let { rect ->
             // check if rectangle contains DragTarget:
             // dragPosition = place where composable left off; dragOffset = place it got dragged to
-            isCurrentDropTarget = rect.contains(dragPosition + dragOffset)
+            isOnDropTarget = rect.contains(dragPosition + dragOffset)
         }
     }) {
         /*
         We also need to check if item has been let go or if it is only hovering over drop zone
         if item to drop is on top of drop zone and it is not currently dragging, then we provide dataToDrop
          */
-        val data = if (isCurrentDropTarget && !dragInfo.isDragging) dragInfo.dataToDrop as T? else null
+        val data = if (isOnDropTarget && !dragInfo.isDragging) dragInfo.dataToDrop as T? else null
         // invoke content composable:
         // content is the composable that is shown to user to know where item should be dropped
         // will provide isCurrentDropTarget for info if it is in bound, along with data
-        content(isCurrentDropTarget, data)
+        content(isInBound = isOnDropTarget, data = data)
     }
 }
 
