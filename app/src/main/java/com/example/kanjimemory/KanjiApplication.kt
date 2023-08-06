@@ -7,5 +7,4 @@ import dagger.hilt.android.HiltAndroidApp
 class KanjiApplication: Application() {
     // Application = top level class that an application can hold
     // add android:name=".KanjiApplication" to AndroidManifest.xml
-
 }

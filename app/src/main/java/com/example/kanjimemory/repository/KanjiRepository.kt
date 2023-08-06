@@ -13,7 +13,6 @@ class KanjiRepository @Inject constructor(private val kanjiDatabaseDao: KanjiDat
 
     fun getRandomKanjis(): Flow<List<Kanji>> = kanjiDatabaseDao.getRandomKanjis().flowOn(Dispatchers.IO).conflate()
 
-    // get single random Kanji object for RepetitionViewModel
     fun getOneRandomKanji(): Flow<Kanji> = kanjiDatabaseDao.getOneRandomKanji().flowOn(Dispatchers.IO).conflate()
 
     suspend fun update(kanji: Kanji) = kanjiDatabaseDao.update(kanji)

@@ -38,8 +38,6 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
     val firstTranslationItem = kanjiList.firstOrNull()
     val kanjis = kanjiList.shuffled()
 
-    // TODO: find out why kanjis shuffle twice :S
-
     Scaffold(
         topBar = {
             TopBar(navController = navController)

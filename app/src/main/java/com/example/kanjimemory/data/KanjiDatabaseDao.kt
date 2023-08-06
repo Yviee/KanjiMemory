@@ -18,7 +18,6 @@ interface KanjiDatabaseDao {
     @Query("SELECT * FROM kanji")
     fun getAllData(): Flow<List<Kanji>>
 
-
     @Query("SELECT * FROM kanji WHERE id IN (SELECT id FROM kanji ORDER BY RANDOM() LIMIT 5)")
     fun getRandomKanjis(): Flow<List<Kanji>>
 

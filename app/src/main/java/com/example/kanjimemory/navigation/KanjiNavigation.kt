@@ -44,7 +44,5 @@ fun KanjiNavigation() {
                 VibrationScreen(navController = navController)
             }
         }
-
     }
-
 }

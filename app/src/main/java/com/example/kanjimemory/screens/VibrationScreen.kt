@@ -34,7 +34,6 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
-
             val context = LocalContext.current
 
             val vibrator by lazy {
@@ -75,8 +74,6 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
                 ).compose()
             )
 
-
-
             vibrationPrimitives.forEach { vibrationEffect ->
                 Button(onClick = {
                     vibrator.vibrate(VibrationEffect.createPredefined(vibrationEffect))
@@ -110,7 +107,6 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
                     Text(text = "$vibrationEffect")
                 }
             }
-
 
             // create wave
             /*val longTimings: LongArray = longArrayOf(50, 50, 50, 50, 50, 100, 350, 25, 25, 25, 25, 200)

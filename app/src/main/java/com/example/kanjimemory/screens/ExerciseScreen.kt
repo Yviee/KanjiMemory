@@ -37,8 +37,6 @@ fun ExerciseScreen(navController: NavController = rememberNavController()) {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.primary
         ) {
-            // TODO: collectAsStateWithLifecycle() -> update dependencies!
-            // https://blog.protein.tech/exploring-differences-collectasstate-collectasstatewithlifecycle-7fde491110c0
             val database = exerciseViewModel.randomKanjiList.collectAsState().value
 
             val kanjis = database.shuffled()
@@ -62,7 +60,7 @@ fun MemoryGrid(
 ) {
 
     val solvedKanjis =
-        exerciseViewModel.solvedKanjis.observeAsState()  // observe the solved kanjis state
+        exerciseViewModel.solvedKanjis.observeAsState()  // observe solved kanjis as state
 
     Box(contentAlignment = Alignment.Center) {
         Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
