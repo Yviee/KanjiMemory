@@ -1,11 +1,12 @@
 package com.example.kanjimemory.screens
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
@@ -18,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
+import com.example.kanjimemory.sharedComposables.TopBar
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.viewmodel.ExerciseViewModel
 
@@ -29,17 +31,7 @@ fun ExerciseScreen(navController: NavController = rememberNavController()) {
 
     Scaffold(
         topBar = {
-            TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
-                Row {
-                    Icon(imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Arrow back",
-                        modifier = Modifier.clickable {
-                            navController.popBackStack()        // go back to last screen
-                        })
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = "Back to Main Menu")
-                }
-            }
+            TopBar(navController = navController)
         }) {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -81,8 +73,7 @@ fun MemoryGrid(
                         word = kanji.kanji,
                         solvedKanjis = solvedKanjis.value,
                         onItemClick = {
-                            exerciseViewModel.kanjiCardClicked.value =
-                                !(exerciseViewModel.kanjiCardClicked.value)!!
+                            exerciseViewModel.kanjiCardClicked.value = true
                             exerciseViewModel.addToSelected(kanjiId = kanji.id)
                             exerciseViewModel.reload()
                         })
@@ -96,8 +87,7 @@ fun MemoryGrid(
                         word = translation.translation,
                         solvedKanjis = solvedKanjis.value,
                         onItemClick = {
-                            exerciseViewModel.translationCardClicked.value =
-                                !(exerciseViewModel.translationCardClicked.value)!!
+                            exerciseViewModel.translationCardClicked.value = true
                             exerciseViewModel.addToSelected(kanjiId = translation.id)
                             exerciseViewModel.reload()
                         })

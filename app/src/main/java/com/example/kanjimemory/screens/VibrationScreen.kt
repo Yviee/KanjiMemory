@@ -7,11 +7,8 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.HapticFeedbackConstants
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,10 +16,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.kanjimemory.ui.theme.Purple200
+import com.example.kanjimemory.sharedComposables.TopBar
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
@@ -30,19 +26,8 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
 
     Scaffold(
         topBar = {
-            TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
-                Row {
-                    Icon(imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Arrow back",
-                        modifier = Modifier.clickable {
-                            navController.popBackStack()        // go back to last screen
-                        })
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = "Back to Main Menu")
-                }
-            }
-        })
-    {
+            TopBar(navController = navController)
+        }) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

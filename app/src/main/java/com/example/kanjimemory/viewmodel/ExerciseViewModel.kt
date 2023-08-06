@@ -70,11 +70,22 @@ class ExerciseViewModel @Inject constructor(private val repository: KanjiReposit
                     val copyList = _solvedKanjiList.toList()
                     // need to make a deep copy of list: if only list is referenced, it will not trigger recomposition
                     _solvedKanjis.value = copyList
+                    _selectedKanjiList.clear()
+                    kanjiCardClicked.value = false
+                    translationCardClicked.value = false
+                }
+                else {
+                    _selectedKanjiList.clear()
+                    kanjiCardClicked.value = false
+                    translationCardClicked.value = false
                 }
             }
-            _selectedKanjiList.clear()
-            kanjiCardClicked.value = false
-            translationCardClicked.value = false
+            else if (kanjiCardClicked.value == true || translationCardClicked.value == true) {
+                if(_selectedKanjiList.isNotEmpty()) {
+                    _selectedKanjiList.removeFirst()
+                    _selectedKanjiList.add(kanjiId)
+                }
+            }
         } else {
             _selectedKanjiList.add(kanjiId)
         }

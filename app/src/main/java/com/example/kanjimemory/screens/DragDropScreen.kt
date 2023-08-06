@@ -1,13 +1,14 @@
 package com.example.kanjimemory.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,9 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
-import com.example.kanjimemory.sharedComposables.DragTarget
 import com.example.kanjimemory.sharedComposables.DragDropLogicScreen
+import com.example.kanjimemory.sharedComposables.DragTarget
 import com.example.kanjimemory.sharedComposables.DropItem
+import com.example.kanjimemory.sharedComposables.TopBar
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.ui.theme.Purple500
 import com.example.kanjimemory.viewmodel.DragDropViewModel
@@ -40,19 +42,8 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
 
     Scaffold(
         topBar = {
-            TopAppBar(elevation = 3.dp, backgroundColor = Purple200) {
-                Row {
-                    Icon(imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Arrow back",
-                        modifier = Modifier.clickable {
-                            navController.popBackStack()        // go back to last screen
-                        })
-                    Spacer(modifier = Modifier.width(20.dp))
-                    Text(text = "Back to Main Menu")
-                }
-            }
-        })
-    {
+            TopBar(navController = navController)
+        }) {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
