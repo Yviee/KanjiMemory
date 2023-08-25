@@ -14,10 +14,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class KanjiViewModel @Inject constructor(private val repository: KanjiRepository): ViewModel() {
+class KanjiViewModel @Inject constructor(private val repository: KanjiRepository) : ViewModel() {
 
     // @HiltViewModel because ViewModel uses Hilt
-    private val _kanjiList = MutableStateFlow<List<Kanji>> (emptyList())
+    private val _kanjiList = MutableStateFlow<List<Kanji>>(emptyList())
     // initialise with/as empty List
 
     val kanjiList = _kanjiList.asStateFlow()
@@ -26,8 +26,8 @@ class KanjiViewModel @Inject constructor(private val repository: KanjiRepository
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllKanjis().distinctUntilChanged().collect { listOfKanjis ->
-                if(listOfKanjis.isNullOrEmpty()) {
-                    Log.d("databasetryout","No kanjis in your database!")
+                if (listOfKanjis.isEmpty()) {
+                    Log.d("databasetryout", "No kanjis in your database!")
                 } else {
                     _kanjiList.value = listOfKanjis
                 }

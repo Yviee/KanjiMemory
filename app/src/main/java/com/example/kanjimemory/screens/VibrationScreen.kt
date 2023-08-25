@@ -24,10 +24,9 @@ import com.example.kanjimemory.sharedComposables.TopBar
 @Composable
 fun VibrationScreen(navController: NavController = rememberNavController()) {
 
-    Scaffold(
-        topBar = {
-            TopBar(navController = navController)
-        }) {
+    Scaffold(topBar = {
+        TopBar(navController = navController)
+    }) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -134,9 +133,7 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
             Button(onClick = {
                 vibrator.vibrate(
                     VibrationEffect.createWaveform(
-                        longTimings,
-                        longAmplitudes,
-                        repeatIndex
+                        longTimings, longAmplitudes, repeatIndex
                     )
                 )
             }) {
@@ -159,8 +156,7 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
             Button(onClick = {
                 vibrator.vibrate(
                     VibrationEffect.createOneShot(
-                        200,
-                        VibrationEffect.DEFAULT_AMPLITUDE
+                        200, VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
             }) {
@@ -170,8 +166,7 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
             Button(onClick = {
                 vibrator.vibrate(
                     VibrationEffect.createOneShot(
-                        1000,
-                        VibrationEffect.DEFAULT_AMPLITUDE
+                        1000, VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
             }) {

@@ -29,13 +29,11 @@ import com.example.kanjimemory.viewmodel.ExerciseViewModel
 fun ExerciseScreen(navController: NavController = rememberNavController()) {
     val exerciseViewModel: ExerciseViewModel = hiltViewModel()
 
-    Scaffold(
-        topBar = {
-            TopBar(navController = navController)
-        }) {
+    Scaffold(topBar = {
+        TopBar(navController = navController)
+    }) {
         Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.primary
+            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary
         ) {
             val database = exerciseViewModel.randomKanjiList.collectAsState().value
 
@@ -66,8 +64,7 @@ fun MemoryGrid(
         Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
             Column {
                 kanjisShuffled.forEach { kanji ->
-                    MemoryCard(
-                        kanjiObject = kanji,
+                    MemoryCard(kanjiObject = kanji,
                         word = kanji.kanji,
                         solvedKanjis = solvedKanjis.value,
                         onItemClick = {
@@ -80,8 +77,7 @@ fun MemoryGrid(
             }
             Column {
                 translations.forEach { translation ->
-                    MemoryCard(
-                        kanjiObject = translation,
+                    MemoryCard(kanjiObject = translation,
                         word = translation.translation,
                         solvedKanjis = solvedKanjis.value,
                         onItemClick = {

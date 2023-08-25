@@ -22,13 +22,11 @@ fun KanjiListScreen(navController: NavController = rememberNavController()) {
     val kanjiViewModel: KanjiViewModel = hiltViewModel()
     val database = kanjiViewModel.kanjiList.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopBar(navController = navController)
-        }) {
+    Scaffold(topBar = {
+        TopBar(navController = navController)
+    }) {
         Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.primary
+            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary
         ) {
             LazyColumn {
                 itemsIndexed(database.value) { _, item: Kanji ->

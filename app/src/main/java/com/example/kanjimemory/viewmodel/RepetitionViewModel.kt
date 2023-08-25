@@ -6,15 +6,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.kanjimemory.model.Kanji
 import com.example.kanjimemory.repository.KanjiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 import kotlin.math.absoluteValue
 
 @HiltViewModel
-class RepetitionViewModel @Inject constructor(private val repository: KanjiRepository): ViewModel() {
+class RepetitionViewModel @Inject constructor(private val repository: KanjiRepository) :
+    ViewModel() {
 
     private val _randomKanji = MutableStateFlow<Kanji?>(null)
     val randomKanji = _randomKanji.asStateFlow()

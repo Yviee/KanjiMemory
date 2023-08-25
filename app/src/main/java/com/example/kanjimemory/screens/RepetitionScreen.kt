@@ -28,10 +28,9 @@ fun RepetitionScreen(navController: NavController = rememberNavController()) {
 
     val repetitionViewModel: RepetitionViewModel = hiltViewModel()
 
-    Scaffold(
-        topBar = {
-            TopBar(navController = navController)
-        }) {
+    Scaffold(topBar = {
+        TopBar(navController = navController)
+    }) {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary
         ) {
@@ -45,8 +44,7 @@ fun RepetitionScreen(navController: NavController = rememberNavController()) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp),
-                    shape = RectangleShape
+                        .height(200.dp), shape = RectangleShape
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,

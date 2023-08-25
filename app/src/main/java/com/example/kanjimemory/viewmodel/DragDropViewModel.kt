@@ -1,7 +1,9 @@
 package com.example.kanjimemory.viewmodel
 
 import android.util.Log
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,9 +18,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DragDropViewModel @Inject constructor(private val repository: KanjiRepository): ViewModel() {
+class DragDropViewModel @Inject constructor(private val repository: KanjiRepository) : ViewModel() {
 
-    private val _randomKanjiList = MutableStateFlow<List<Kanji>> (emptyList())
+    private val _randomKanjiList = MutableStateFlow<List<Kanji>>(emptyList())
     val randomKanjiList = _randomKanjiList.asStateFlow()
 
     // TODO: try collecting asLiveData()
@@ -44,10 +46,11 @@ class DragDropViewModel @Inject constructor(private val repository: KanjiReposit
 
     private var isCurrentlyDragging by mutableStateOf(false)
 
-    fun startDragging(){
+    fun startDragging() {
         isCurrentlyDragging = true
     }
-    fun stopDragging(){
+
+    fun stopDragging() {
         isCurrentlyDragging = false
     }
 

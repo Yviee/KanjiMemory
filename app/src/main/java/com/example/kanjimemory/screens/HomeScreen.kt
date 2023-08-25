@@ -1,7 +1,10 @@
 package com.example.kanjimemory.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,15 +18,17 @@ import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.navigation.KanjiScreens
 import com.example.kanjimemory.ui.theme.KanjiMemoryTheme
 import com.example.kanjimemory.ui.theme.Purple200
-import com.example.kanjimemory.ui.theme.Purple700
+import com.example.kanjimemory.ui.theme.Purple500
 
 // In case Emulator is flickering: https://stackoverflow.com/questions/73349171/android-studio-avd-emulator-shows-a-black-flickering
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController()) {
     KanjiMemoryTheme {
         // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(),
-            color = Purple700) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Purple500
+        ) {
             HomeMenu(navController = navController)
         }
     }
@@ -37,11 +42,11 @@ fun HomeMenu(navController: NavController) {
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        HomeButton(onClick = {
-            navController.navigate(route = KanjiScreens.VibrationScreen.name)
-        }, text = "VibrationScreen")
+        /* HomeButton(onClick = {
+             navController.navigate(route = KanjiScreens.VibrationScreen.name)
+         }, text = "VibrationScreen")
 
-        Spacer(modifier = Modifier.padding(10.dp))
+         Spacer(modifier = Modifier.padding(10.dp))*/
 
         HomeButton(onClick = {
             navController.navigate(route = KanjiScreens.KanjiListScreen.name)
@@ -69,16 +74,19 @@ fun HomeMenu(navController: NavController) {
 
 @Composable
 fun Headline(text: String) {
-    Text(text = text,
+    Text(
+        text = text,
         fontSize = 40.sp,
         fontFamily = FontFamily.Cursive,
         color = Color.White,
-        textAlign = TextAlign.Center)
+        textAlign = TextAlign.Center
+    )
 }
 
 @Composable
 fun HomeButton(onClick: () -> Unit, text: String) {
-    Button(onClick = onClick,
+    Button(
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(Purple200),
         modifier = Modifier
             .height(80.dp)

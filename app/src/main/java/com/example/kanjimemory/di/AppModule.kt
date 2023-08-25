@@ -24,14 +24,10 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAppDatabase(@ApplicationContext context: Context): KanjiDatabase
-    = Room.databaseBuilder(
-        context,
-        KanjiDatabase::class.java,
-        "kanji"
-    ).fallbackToDestructiveMigration()
-        .createFromAsset("kanji.db")
-        .build()
+    fun provideAppDatabase(@ApplicationContext context: Context): KanjiDatabase =
+        Room.databaseBuilder(
+            context, KanjiDatabase::class.java, "kanji"
+        ).fallbackToDestructiveMigration().createFromAsset("kanji.db").build()
 
     // creates Room Database using KanjiDatabase, which tells function how Database is to be constructed
 }

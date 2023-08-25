@@ -38,19 +38,16 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
     val firstTranslationItem = kanjiList.firstOrNull()
     val kanjis = kanjiList.shuffled()
 
-    Scaffold(
-        topBar = {
-            TopBar(navController = navController)
-        }) {
+    Scaffold(topBar = {
+        TopBar(navController = navController)
+    }) {
 
         Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.primary
+            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary
         ) {
 
             DragDropLogicScreen(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
 
                 val screenWidth = LocalConfiguration.current.screenWidthDp
@@ -63,16 +60,14 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
                     Spacer(modifier = Modifier.height((screenHeight / 6).dp))
 
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
 
                         kanjis.forEach { kanji ->
                             DragTarget(
-                                dataToDrop = kanji,
-                                dragDropViewModel = dragDropViewModel
+                                dataToDrop = kanji, dragDropViewModel = dragDropViewModel
                             ) {
                                 DraggableKanjiCard(item = kanji, screenWidth = screenWidth)
                             }
@@ -91,13 +86,11 @@ fun DragDropScreen(navController: NavController = rememberNavController()) {
                                 valueContext,
                                 dragDropViewModel.displayToast.value,
                                 Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            ).show()
                         }
 
                         FixedTranslation(
-                            item = firstTranslationItem,
-                            isInBound = isInBound
+                            item = firstTranslationItem, isInBound = isInBound
                         )
                     }
                 }
@@ -124,9 +117,7 @@ fun FixedTranslation(item: Kanji?, isInBound: Boolean) {
         ) {
             item?.translation?.let {
                 Text(
-                    text = it,
-                    style = MaterialTheme.typography.h3,
-                    textAlign = TextAlign.Center
+                    text = it, style = MaterialTheme.typography.h3, textAlign = TextAlign.Center
                 )
             }
         }
@@ -142,8 +133,7 @@ fun DraggableKanjiCard(item: Kanji, screenWidth: Int) {
             .background(Purple200)
             .border(BorderStroke(2.dp, color = Color.White), shape = RoundedCornerShape(20.dp)),
         contentAlignment = Alignment.Center
-    )
-    {
+    ) {
         Text(
             text = item.kanji,
             style = MaterialTheme.typography.h4,
@@ -156,12 +146,8 @@ fun DraggableKanjiCard(item: Kanji, screenWidth: Int) {
 fun FixedCardPreview() {
     FixedTranslation(
         item = Kanji(
-            translation = "person",
-            kanji = "人",
-            id = 0,
-            dateTranslated = 123
-        ),
-        isInBound = false
+            translation = "person", kanji = "人", id = 0, dateTranslated = 123
+        ), isInBound = false
     )
 }
 
@@ -170,11 +156,7 @@ fun FixedCardPreview() {
 fun KanjiCardPreview() {
     DraggableKanjiCard(
         item = Kanji(
-            translation = "person",
-            kanji = "人",
-            id = 0,
-            dateTranslated = 123
-        ),
-        screenWidth = LocalConfiguration.current.screenWidthDp
+            translation = "person", kanji = "人", id = 0, dateTranslated = 123
+        ), screenWidth = LocalConfiguration.current.screenWidthDp
     )
 }

@@ -62,8 +62,7 @@ fun MemoryTryOutCard() {
             shape = RoundedCornerShape(20.dp),
             border = BorderStroke(2.dp, color = Color.White),
             backgroundColor = Purple200,
-            onClick = {
-            }) {
+            onClick = {}) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
