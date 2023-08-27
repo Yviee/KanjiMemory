@@ -2,7 +2,7 @@ package com.example.kanjimemory.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.kanjimemory.model.Kanji
 import com.example.kanjimemory.sharedComposables.TopBar
 import com.example.kanjimemory.viewmodel.KanjiViewModel
 
@@ -29,7 +28,7 @@ fun KanjiListScreen(navController: NavController = rememberNavController()) {
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary
         ) {
             LazyColumn {
-                itemsIndexed(database.value) { _, item: Kanji ->
+                items(database.value) {item ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
