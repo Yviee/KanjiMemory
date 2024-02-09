@@ -1,10 +1,8 @@
 package com.example.kanjimemory.screens
 
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -42,7 +40,6 @@ import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.ui.theme.Purple700
 import com.example.kanjimemory.viewmodel.RepetitionViewModel
 
-@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun RepetitionScreen(navController: NavController = rememberNavController()) {
 
