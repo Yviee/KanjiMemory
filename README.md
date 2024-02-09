@@ -1,6 +1,6 @@
 # Kanji Memory
 
-This is my first app, fully written in Kotlin using Jetpack Compose for the UI and Room for the database. I followed the recommended architecture using MVVM and generally learned a lot creating this app.
+This is my first app, fully written in Kotlin using Jetpack Compose for the UI and Room for the database. I followed the recommended architecture using MVVM and learned a lot creating this app.
 
 It was designed to support learning 101 Japanese characters, i.e., Kanjis, in a fun and accessible way. 
 Upon running the app, the home screen will show 5 buttons, which lead to the following (from top to bottom): 
