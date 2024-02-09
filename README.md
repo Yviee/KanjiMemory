@@ -14,7 +14,7 @@ The following shows screenshots of the homescreen and the destinations of the bu
 
 ![Screenshot](HomeScreen.png)
 
-![Screenshot]()
+![Screenshot](VibrationScreen.png)
 ![Screenshot](KanjiList.png)
 ![Screenshot](ExerciseScreen.png)
 ![Screenshot](RepetitionExercise.png)
