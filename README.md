@@ -11,3 +11,11 @@ Upon running the app, the home screen will show 5 buttons, which lead to the fol
 - A drag and drop exercise, where the correct kanji needs to be dragged into the translation (easiest exercise).
 
 The following shows screenshots of the homescreen and the destinations of the buttons in chronological order: 
+
+![Screenshot](HomeScreen.png)
+
+![Screenshot]()
+![Screenshot](KanjiList.png)
+![Screenshot](ExerciseScreen.png)
+![Screenshot](RepetitionExercise.png)
+![Screenshot](DragDropExercise.png)
