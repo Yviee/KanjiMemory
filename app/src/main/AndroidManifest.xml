@@ -3,6 +3,8 @@
     package="com.example.kanjimemory">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <application
         android:name=".KanjiApplication"
@@ -15,7 +17,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.KanjiMemory">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,9 +6,13 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.HapticFeedbackConstants
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,15 +24,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.sharedComposables.TopBar
 
-@RequiresApi(Build.VERSION_CODES.R)
 @Composable
 fun VibrationScreen(navController: NavController = rememberNavController()) {
 
     Scaffold(topBar = {
         TopBar(navController = navController)
-    }) {
+    }) { padding ->
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -59,29 +64,30 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
         // working in array: 0, 4
          */
 
-            val vibrationPrimitives = listOf(
-                VibrationEffect.Composition.PRIMITIVE_CLICK,
-                VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
-            )
-
-
-            vibrator.vibrate(
-                VibrationEffect.startComposition().addPrimitive(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val vibrationPrimitives = listOf(
+                    VibrationEffect.Composition.PRIMITIVE_CLICK,
                     VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
-                ).addPrimitive(
-                    VibrationEffect.Composition.PRIMITIVE_CLICK
-                ).compose()
-            )
+                )
 
-            vibrationPrimitives.forEach { vibrationEffect ->
-                Button(onClick = {
-                    vibrator.vibrate(VibrationEffect.createPredefined(vibrationEffect))
+                vibrator.vibrate(
+                    VibrationEffect.startComposition().addPrimitive(
+                        VibrationEffect.Composition.PRIMITIVE_SLOW_RISE
+                    ).addPrimitive(
+                        VibrationEffect.Composition.PRIMITIVE_CLICK
+                    ).compose()
+                )
 
-                }) {
-                    Text(text = "$vibrationEffect")
+
+                vibrationPrimitives.forEach { vibrationEffect ->
+                    Button(onClick = {
+                        vibrator.vibrate(VibrationEffect.createPredefined(vibrationEffect))
+
+                    }) {
+                        Text(text = "$vibrationEffect")
+                    }
                 }
             }
-
             /*val vibrationEffects = listOf(
             VibrationEffect.DEFAULT_AMPLITUDE,
             VibrationEffect.EFFECT_CLICK,
@@ -92,18 +98,20 @@ fun VibrationScreen(navController: NavController = rememberNavController()) {
             // working in array: 1, 2, 3
         )*/
 
-            val vibrationEffects = listOf(
-                VibrationEffect.EFFECT_CLICK,
-                VibrationEffect.EFFECT_DOUBLE_CLICK,
-                VibrationEffect.EFFECT_HEAVY_CLICK
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val vibrationEffects = listOf(
+                    VibrationEffect.EFFECT_CLICK,
+                    VibrationEffect.EFFECT_DOUBLE_CLICK,
+                    VibrationEffect.EFFECT_HEAVY_CLICK
+                )
 
-            vibrationEffects.forEach { vibrationEffect ->
-                Button(onClick = {
-                    vibrator.vibrate(VibrationEffect.createPredefined(vibrationEffect))
+                vibrationEffects.forEach { vibrationEffect ->
+                    Button(onClick = {
+                        vibrator.vibrate(VibrationEffect.createPredefined(vibrationEffect))
 
-                }) {
-                    Text(text = "$vibrationEffect")
+                    }) {
+                        Text(text = "$vibrationEffect")
+                    }
                 }
             }
 

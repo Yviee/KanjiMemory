@@ -1,6 +1,10 @@
 package com.example.kanjimemory.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Surface
@@ -42,11 +46,11 @@ fun HomeMenu(navController: NavController) {
 
         Spacer(modifier = Modifier.height(50.dp))
 
-        /* HomeButton(onClick = {
-             navController.navigate(route = KanjiScreens.VibrationScreen.name)
-         }, text = "VibrationScreen")
+        HomeButton(onClick = {
+            navController.navigate(route = KanjiScreens.VibrationScreen.name)
+        }, text = "VibrationScreen")
 
-         Spacer(modifier = Modifier.padding(10.dp))*/
+        Spacer(modifier = Modifier.padding(10.dp))
 
         HomeButton(onClick = {
             navController.navigate(route = KanjiScreens.KanjiListScreen.name)

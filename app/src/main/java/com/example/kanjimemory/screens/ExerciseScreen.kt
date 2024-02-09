@@ -1,5 +1,6 @@
 package com.example.kanjimemory.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -8,14 +9,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kanjimemory.model.Kanji
@@ -23,11 +22,16 @@ import com.example.kanjimemory.sharedComposables.TopBar
 import com.example.kanjimemory.ui.theme.Purple200
 import com.example.kanjimemory.viewmodel.ExerciseViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ExerciseScreen(navController: NavController = rememberNavController()) {
-    val exerciseViewModel: ExerciseViewModel = hiltViewModel()
+fun ExerciseScreen(
+    navController: NavController = rememberNavController(),
+    exerciseViewModel: ExerciseViewModel,
+    database: List<Kanji>,
+    kanjis: List<Kanji>
+) {
 
     Scaffold(topBar = {
         TopBar(navController = navController)
@@ -35,10 +39,6 @@ fun ExerciseScreen(navController: NavController = rememberNavController()) {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary
         ) {
-            val database = exerciseViewModel.randomKanjiList.collectAsState().value
-
-            val kanjis = database.shuffled()
-
             MemoryGrid(
                 kanjisShuffled = kanjis,
                 translations = database,
