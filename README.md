@@ -7,7 +7,7 @@ Upon running the app, the home screen will show 5 buttons, which lead to the fol
 - A screen of several buttons that vibrate. This was just added to try out different vibration patterns.
 - A list of all 101 kanjis and their translations (only one translation was chosen for each kanji, although there may be more).
 - A memory exercise, for which the task is to find the matching pairs between kanji and translation.
-- A repetition exercise, where the correct translation needs to be typed into the textfield via the keyboard. It is designed as a spaced repetition system, though not fully formed yet (hardest exercise).
+- A repetition exercise, where the correct translation needs to be typed into the textfield via the keyboard. It is designed as a spaced repetition system, though not fully formed yet. When entering a wrong translation, a longer vibration will occur than when the correct translation is entered (hardest exercise).
 - A drag and drop exercise, where the correct kanji needs to be dragged into the translation (easiest exercise).
 
 The following shows screenshots of the homescreen and the destinations of the buttons in chronological order: 
