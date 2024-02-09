@@ -12,7 +12,7 @@ Upon running the app, the home screen will show 5 buttons, which lead to the fol
 
 The following shows screenshots of the homescreen and the destinations of the buttons in chronological order: 
 
-![Screenshot](HomeScreen.png)
+<img src="HomeScreen.png" alt="homescreen" height="200"/>
 
 ![Screenshot](VibrationScreen.png)
 ![Screenshot](KanjiList.png)
