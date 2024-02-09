@@ -12,7 +12,7 @@ Upon running the app, the home screen will show 5 buttons, which lead to the fol
 
 The following shows screenshots of the homescreen and the destinations of the buttons in chronological order: 
 
-<p align="center">
+<div align="center">
   <h3>Home Screen</h3>
   <img src="HomeScreen.png" alt="homescreen" width="400"/><br>
   
@@ -30,4 +30,4 @@ The following shows screenshots of the homescreen and the destinations of the bu
 
   <h3>Drag & Drop Exercise Screen</h3>
   <img src="DragDropExercise.png" alt="dragdropscreen" width="400"/>
-</p>
+</div>
