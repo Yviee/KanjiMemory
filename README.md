@@ -13,10 +13,21 @@ Upon running the app, the home screen will show 5 buttons, which lead to the fol
 The following shows screenshots of the homescreen and the destinations of the buttons in chronological order: 
 
 <p align="center">
+  <h3>Home Screen</h3>
   <img src="HomeScreen.png" alt="homescreen" width="400"/><br>
+  
+  <h3>Vibration Screen</h3>
   <img src="VibrationScreen.png" alt="vibrationscreen" width="400"/><br>
+
+  <h3>Kanji List Screen</h3>
   <img src="KanjiList.png" alt="kanjilist" width="400"/><br>
+
+  <h3>Memory Exercise Screen</h3>
   <img src="ExerciseScreen.png" alt="exercisescreen" width="400"/><br>
+
+  <h3>Repetition Exercise Screen</h3>
   <img src="RepetitionExercise.png" alt="repetitionscreen" width="400"/><br>
+
+  <h3>Drag & Drop Exercise Screen</h3>
   <img src="DragDropExercise.png" alt="dragdropscreen" width="400"/>
 </p>
