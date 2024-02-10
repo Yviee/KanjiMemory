@@ -3,7 +3,6 @@ package com.example.kanjimemory.navigation
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -30,7 +29,7 @@ fun KanjiNavigation() {
     val exerciseKanjis = database.shuffled()
 
     val dragDropViewModel: DragDropViewModel = hiltViewModel()
-    val kanjiList = dragDropViewModel.randomKanjiList.collectAsState().value
+    val kanjiList = dragDropViewModel.randomKanjiList.collectAsStateWithLifecycle().value
     val firstTranslationItem = kanjiList.firstOrNull()
     val dragDropKanjis = kanjiList.shuffled()
 
