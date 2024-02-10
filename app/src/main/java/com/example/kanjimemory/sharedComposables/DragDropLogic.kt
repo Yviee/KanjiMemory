@@ -4,11 +4,16 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -92,7 +97,7 @@ fun <T> DragTarget(
                 // draggableComposable copies the composable!
                 currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
-                change.consumeAllChanges()
+                change.consume()
                 currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
             }, onDragEnd = {
                 dragDropViewModel.stopDragging()
@@ -142,7 +147,7 @@ fun <T> DropItem(
         // invoke content composable:
         // content is the composable that is shown to user to know where item should be dropped
         // will provide isCurrentDropTarget for info if it is in bound, along with data
-        content(isInBound = isOnDropTarget, data = data)
+        content(isOnDropTarget, data)
     }
 }
 
@@ -150,8 +155,10 @@ internal class DragTargetInfo {
     var isDragging: Boolean by mutableStateOf(false)
     var dragPosition by mutableStateOf(Offset.Zero)
     var dragOffset by mutableStateOf(Offset.Zero)
+
     //  to copy composable
     var draggableComposable by mutableStateOf<(@Composable () -> Unit)?>(null)
+
     // e.g., pass data to viewModel to process data
     var dataToDrop by mutableStateOf<Any?>(null)
 }
