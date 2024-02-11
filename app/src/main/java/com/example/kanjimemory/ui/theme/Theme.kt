@@ -1,10 +1,13 @@
 package com.example.kanjimemory.ui.theme
 
+import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -34,6 +37,10 @@ fun KanjiMemoryTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compo
     } else {
         LightColorPalette
     }
+
+    val view = LocalView.current
+    val window = (view.context as Activity).window
+    window.navigationBarColor = colors.primaryVariant.toArgb()
 
     MaterialTheme(
         colors = colors,
